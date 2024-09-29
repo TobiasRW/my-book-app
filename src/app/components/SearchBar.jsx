@@ -4,6 +4,8 @@ import React, { useState } from "react";
 export default function SearchBar({ setBooks, setLoading }) {
   // State to store the search query (title, author or ISBN)
   const [query, setQuery] = useState("");
+  const [author, setAuthor] = useState("");
+  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   const searchBooks = async () => {
     // If there's no query, do nothing
@@ -13,33 +15,37 @@ export default function SearchBar({ setBooks, setLoading }) {
     setLoading(true);
 
     try {
-      // Remove any dashes in the query to normalize ISBN input
-      const cleanQuery = query.replace(/-/g, "");
 
-      // Check if the query is a valid ISBN (10 or 13 digits)
-      const isISBN = /^\d{10}(\d{3})?$/.test(cleanQuery);
+      let searchQuery;
 
-      // If it's an ISBN, search by ISBN, otherwise search by title
-      const searchType = isISBN ? "isbn" : "title";
+      const isbnRegex = /^(?:\d{10}|\d{13})$/;
+      if (isbnRegex.test(query)) {
+        searchQuery = `isbn:${encodeURIComponent(query)}`;
+      } else {
+        // If it's not an ISBN, search by title and author
+        searchQuery = `intitle:${encodeURIComponent(query)}`;
+        if (author) {
+          searchQuery += `+inauthor:${encodeURIComponent(author)}`;
+        }
+      }
+      
 
-      // Fetch books from the Open Library API
       const response = await fetch(
-        `https://openlibrary.org/search.json?${searchType}=${encodeURIComponent(
-          query
-        )}&limit=5`
+       `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&key=${API_KEY}&maxResults=10&orderBy=relevance`
       );
 
       // Parse the response as JSON
       const data = await response.json();
 
       // Simplify the book data to only include the necessary fields
-      const simplifiedBooks = data.docs.map((book) => ({
-        title: book.title || "No Title",
-        author: book.author_name?.join(", ") || "Unknown Author",
-        pageCount: book.number_of_pages_median || "N/A",
-        publishDate: book.first_publish_year || "N/A",
-        isbn: book.isbn ? book.isbn[0] : "N/A",
-        coverID: book.cover_i || null,
+      const simplifiedBooks = data.items.map((item) => ({
+        title: item.volumeInfo.title || "No Title",
+        author: item.volumeInfo.authors?.join(", ") || "Unknown Author",
+        pageCount: item.volumeInfo.pageCount || "N/A",
+        publishDate: item.volumeInfo.publishedDate || "N/A",
+        isbn: item.volumeInfo.industryIdentifiers?.[0]?.identifier || "N/A",
+        coverID: item.volumeInfo.imageLinks?.thumbnail,
+        rating: item.volumeInfo.averageRating || "No Rating",
       }));
 
       // Update the books state with the simplified book data
@@ -54,6 +60,7 @@ export default function SearchBar({ setBooks, setLoading }) {
   // Function to clear the search query and results
   const clearSearch = () => {
     setQuery("");
+    setAuthor("");
     setBooks([]);
   }
 

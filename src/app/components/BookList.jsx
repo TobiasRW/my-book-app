@@ -12,6 +12,9 @@ export default function BookList({ books }) {
             author={book.author}
             pageCount={book.pageCount}
             coverID={book.coverID}
+            publishDate={book.publishDate}
+            isbn={book.isbn}
+            rating={book.rating}
           />
         </li>
       ))}
