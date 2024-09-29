@@ -5,17 +5,30 @@ export default function SearchBar({ setBooks, setLoading }) {
   // State to store the search query (title, author or ISBN)
   const [query, setQuery] = useState("");
   const [author, setAuthor] = useState("");
+  const [error, setError] = useState("");
+  
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
-  const searchBooks = async () => {
-    // If there's no query, do nothing
-    if (!query) return;
+  // Function to display an error message for 5 seconds
+  const displayError = (message) => {
+    setError(message);
+    setTimeout(() => setError(""), 5000);
+  };
 
+  // Function to search for books using the Google Books API
+  const searchBooks = async () => {
+
+    // If there's no query, display an error message
+    if (!query) {
+      displayError("Please enter a title, author or ISBN.");
+      return;
+    }
+
+    // Clear the books state and set loading to true
     setBooks([]);
     setLoading(true);
 
     try {
-
       let searchQuery;
 
       const isbnRegex = /^(?:\d{10}|\d{13})$/;
@@ -28,14 +41,19 @@ export default function SearchBar({ setBooks, setLoading }) {
           searchQuery += `+inauthor:${encodeURIComponent(author)}`;
         }
       }
-      
 
       const response = await fetch(
-       `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&key=${API_KEY}&maxResults=10&orderBy=relevance`
+        `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&key=${API_KEY}&maxResults=10&orderBy=relevance`
       );
 
       // Parse the response as JSON
       const data = await response.json();
+
+      // If there are no items in the response, display error message
+      if (!data.items || data.items.length === 0) {
+        displayError("No books found.");
+        return;
+      }
 
       // Simplify the book data to only include the necessary fields
       const simplifiedBooks = data.items.map((item) => ({
@@ -52,6 +70,9 @@ export default function SearchBar({ setBooks, setLoading }) {
       setBooks(simplifiedBooks);
     } catch (error) {
       console.error("Error fetching books:", error);
+      displayError(
+        "An error occurred while fetching books. Please try again later."
+      );
     } finally {
       setLoading(false);
     }
@@ -62,7 +83,7 @@ export default function SearchBar({ setBooks, setLoading }) {
     setQuery("");
     setAuthor("");
     setBooks([]);
-  }
+  };
 
   return (
     <div className="max-w-md w-11/12 mx-auto">
@@ -73,7 +94,7 @@ export default function SearchBar({ setBooks, setLoading }) {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -102,7 +123,7 @@ export default function SearchBar({ setBooks, setLoading }) {
           onClick={clearSearch}
         >
           <svg
-            className="h-6 w-6"
+            className="h-5 w-5"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -118,6 +139,11 @@ export default function SearchBar({ setBooks, setLoading }) {
           </svg>
         </div>
       </div>
+      {error && (
+        <div className="max-w-md w-11/12 mx-auto bg-red-500 text-white text-sm text-center p-4 rounded mt-10">
+          {error}
+        </div>
+      )}
     </div>
   );
 }
