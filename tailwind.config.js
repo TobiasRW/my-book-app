@@ -13,6 +13,10 @@ module.exports = {
         darkgray: '#1f1f1f', 
         lightgray: '#3d3d3d',
         textgray: '#adadad',
+        offwhite: '#faf9f7',
+      },
+      fontFamily: {
+        satoshi: ["Satoshi", "sans-serif"],
       },
     },
   },
