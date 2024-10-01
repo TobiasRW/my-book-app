@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function TopNav() {
   return (
     <>
-      <header className="flex justify-between w-11/12 mx-auto mt-4">
+      <header className="flex justify-between mt-4">
         <div className="p-1 bg-offwhite rounded-full flex justify-center items-center">
           <svg
             class="h-5 w-5 text-background"

@@ -87,7 +87,7 @@ export default function SearchBar({ setBooks, setLoading }) {
 
   return (
     <div className="">
-      <div className="max-w-md w-11/12 mx-auto flex gap-3 items-center pt-6">
+      <div className="max-w-md mx-auto flex gap-3 items-center pt-6">
         <Link
           href="/"
           className="bg-darkgray rounded-full flex justify-center items-center p-1"

@@ -6,12 +6,14 @@ import TopNav from "./components/navs/TopNav";
 
 export default function Home() {
   return (
-    <div className="">
-      <TopNav />
-      <div className="w-11/12 mx-auto mt-10">
+    <div className="flex flex-col gap-4">
+      <div className="mt-4">
+        <h1 className="font-satoshi text-4xl">Book Buddy</h1>
+      </div>
+      <div className=" ">
         <h2 className="font-satoshi font-light text-2xl">Reading Now</h2>
       </div>
-      <div className="w-11/12 mx-auto mt-10">
+      <div className=" ">
         <h2 className="font-satoshi font-light text-2xl mb-4">Recommended</h2>
         <Reccomended />
       </div>

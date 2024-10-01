@@ -14,7 +14,7 @@ export default function BookCard({
   const defaultCover = "/assets/img/default-cover.webp"; // Default cover image path
 
   return (
-    <div className="flex gap-4 w-11/12 sm:w-5/6 mx-auto">
+    <div className="flex gap-4 sm:w-5/6 mx-auto">
       <img
         src={coverID || defaultCover} // Google Books cover URL or default cover
         alt={title}
