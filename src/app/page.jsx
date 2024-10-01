@@ -1,12 +1,12 @@
 "use client";
 
 
-import Reccomended from "./components/homepage-sections/Reccomended";
+import Reccomended from "./components/homepage-sections/Recommended";
 import TopNav from "./components/navs/TopNav";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="">
       <TopNav />
       <div className="w-11/12 mx-auto mt-10">
         <h2 className="font-satoshi font-light text-2xl">Reading Now</h2>

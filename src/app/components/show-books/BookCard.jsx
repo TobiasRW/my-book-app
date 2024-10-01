@@ -1,8 +1,16 @@
-'use client';
-import React from 'react';
-import StarRating from './StarRating';
+"use client";
+import React from "react";
+import StarRating from "./StarRating";
 
-export default function BookCard({ title, author, pageCount, publishDate, isbn, coverID, rating }) {
+export default function BookCard({
+  title,
+  author,
+  pageCount,
+  publishDate,
+  isbn,
+  coverID,
+  rating,
+}) {
   const defaultCover = "/assets/img/default-cover.webp"; // Default cover image path
 
   return (
@@ -16,13 +24,13 @@ export default function BookCard({ title, author, pageCount, publishDate, isbn, 
           e.target.src = defaultCover; // Fallback to default cover
         }}
       />
-      
-      <div className="flex flex-col w-4/5 border-b border-lightgray">
-        <h2 className="text-lg font-bold mb-2 text-white">{title}</h2>
-        <p className="text-base mb-1 text-textgray">{author}</p>
+
+      <div className="flex flex-col w-4/5 border-b border-lightgray overflow-hidden">
+        <h2 className="text-lg font-bold mb-2 text-white truncate">{title}</h2>
+        <p className="text-base mb-1 text-textgray truncate">{author}</p>
         <p className="text-sm mb-1 text-textgray">{pageCount} pages</p>
         <div className="text-sm mb-1 text-textgray flex gap-1">
-          Rating: {rating > 0 ? <StarRating rating={rating} /> : "No Rating"} 
+          Rating: {rating > 0 ? <StarRating rating={rating} /> : "No Rating"}
         </div>
       </div>
     </div>

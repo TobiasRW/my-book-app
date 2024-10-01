@@ -1,15 +1,16 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import ReccomendedBook from '../show-books/ReccomendedBook';
+import ReccomendedBook from '../show-books/RecommendedBook';
 
 export default function Reccomended() {
   const [reccomendedBooks, setReccomendedBooks] = useState([]);
 
   const recBookIDs = [
-    "oCpYuc1dfPAC", // Wool Hugh Howey
+    "MyIukohIVRwC", // Wool Hugh Howey
     "OHclhBVv-X4C", // The way of kings Brandon Sanderson
-    "nPF9n0SwstMC"  // Red Rising Pierce Brown
+    "nPF9n0SwstMC",  // Red Rising Pierce Brown
+    "6PqGDwAAQBAJ"  // The Rage of Dragons Evan Winter
   ];
 
   useEffect(() => {
@@ -36,8 +37,8 @@ export default function Reccomended() {
       {reccomendedBooks.map((book) => (
         <ReccomendedBook
           key={book.id}
-          coverID={book.volumeInfo.imageLinks?.thumbnail} // Corrected: Access the thumbnail correctly
-          title={book.volumeInfo.title} // Accessing title from volumeInfo
+          coverID={book.volumeInfo.imageLinks?.thumbnail}
+          title={book.volumeInfo.title}
         />
       ))}
     </div>

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from "react";
 
 export default function SearchBar({ setBooks, setLoading }) {
@@ -6,7 +7,7 @@ export default function SearchBar({ setBooks, setLoading }) {
   const [query, setQuery] = useState("");
   const [author, setAuthor] = useState("");
   const [error, setError] = useState("");
-  
+
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   // Function to display an error message for 5 seconds
@@ -17,7 +18,6 @@ export default function SearchBar({ setBooks, setLoading }) {
 
   // Function to search for books using the Google Books API
   const searchBooks = async () => {
-
     // If there's no query, display an error message
     if (!query) {
       displayError("Please enter a title, author or ISBN.");
@@ -86,57 +86,79 @@ export default function SearchBar({ setBooks, setLoading }) {
   };
 
   return (
-    <div className="max-w-md w-11/12 mx-auto">
-      <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg bg-darkgray overflow-hidden">
-        <div
-          className="grid place-items-center h-full w-12 text-gray-300"
-          onClick={searchBooks}
+    <div className="">
+      <div className="max-w-md w-11/12 mx-auto flex gap-3 items-center pt-6">
+        <Link
+          href="/"
+          className="bg-darkgray rounded-full flex justify-center items-center p-1"
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </div>
-
-        <input
-          className="h-full w-full outline-none text-sm text-gray-400 bg-darkgray"
-          type="text"
-          placeholder="Search by title, author or ISBN..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") searchBooks();
-          }}
-        />
-        <div
-          className="grid place-items-center h-full w-12 text-gray-300"
-          onClick={clearSearch}
-        >
-          <svg
-            className="h-5 w-5"
+            class="h-6 w-6 text-textgray"
             width="24"
             height="24"
             viewBox="0 0 24 24"
-            strokeWidth="2"
+            stroke-width="2"
             stroke="currentColor"
             fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <path stroke="none" d="M0 0h24v24H0z" />
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
+            {" "}
+            <path stroke="none" d="M0 0h24v24H0z" />{" "}
+            <polyline points="15 6 9 12 15 18" />
           </svg>
+        </Link>
+        <div className="relative flex items-center w-full h-10 rounded-xl focus-within:shadow-lg bg-darkgray overflow-hidden">
+          <div
+            className="grid place-items-center h-full w-12 text-gray-300"
+            onClick={searchBooks}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </div>
+
+          <input
+            className="h-full w-full outline-none text-sm text-gray-400 bg-darkgray"
+            type="text"
+            placeholder="Search by title, author or ISBN..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") searchBooks();
+            }}
+          />
+          <div
+            className="grid place-items-center h-full w-12 text-gray-300"
+            onClick={clearSearch}
+          >
+            <svg
+              className="h-5 w-5"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" />
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </div>
         </div>
       </div>
       {error && (

@@ -5,8 +5,8 @@ import Link from "next/link";
 export default function TopNav() {
   return (
     <>
-      <div className="flex justify-between w-11/12 mx-auto mt-4">
-        <div className="px-1 py-1 bg-offwhite rounded-full">
+      <header className="flex justify-between w-11/12 mx-auto mt-4">
+        <div className="p-1 bg-offwhite rounded-full flex justify-center items-center">
           <svg
             class="h-5 w-5 text-background"
             viewBox="0 0 24 24"
@@ -23,7 +23,7 @@ export default function TopNav() {
         </div>
         <Link
           href="/search-books"
-          className="px-1 py-1 bg-offwhite rounded-full "
+          className="p-1 bg-offwhite rounded-full flex justify-center items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ export default function TopNav() {
             />
           </svg>
         </Link>
-      </div>
+      </header>
     </>
   );
 }
