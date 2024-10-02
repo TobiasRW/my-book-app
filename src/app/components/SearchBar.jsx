@@ -22,7 +22,7 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
   // Function to handle form submission
   const handleSubmit = (e) => {
     // Prevent default form submission (page reload)
-    e.preventDefault(); 
+    e.preventDefault();
 
     // If query is empty or only whitespace show error message
     if (query.trim() === "") {
@@ -33,7 +33,8 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
     // Create URLSearchParams object to build query string
     const params = new URLSearchParams();
     params.append("q", query); // Add q parameter with value of query
-    if (author) { // If author is provided, adds it as a query parameter.
+    if (author) {
+      // If author is provided, adds it as a query parameter.
       params.append("author", author);
     }
     router.push(`/search-books?${params.toString()}`); // Navigate to /search-books + query parameters
@@ -54,15 +55,15 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
           className="bg-darkgray rounded-full flex justify-center items-center p-1"
         >
           <svg
-            class="h-6 w-6 text-textgray"
+            className="h-6 w-6 text-textgray"
             width="24"
             height="24"
             viewBox="0 0 24 24"
-            stroke-width="2"
+            strokeWidth="2"
             stroke="currentColor"
             fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             {" "}
             <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -76,7 +77,22 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
           <button
             type="submit"
             className="grid place-items-center h-full w-12 text-gray-300"
-          ></button>
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </button>
           <input
             className="h-full w-full outline-none text-sm text-gray-400 bg-darkgray"
             type="text"
