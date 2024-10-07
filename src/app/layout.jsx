@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
       <body>
         {/* Include global components like a header or footer here */}
         <Navigation />
-        <main className="w-11/12 mx-auto">{children}</main>
+        <main className="">{children}</main>
       </body>
     </html>
   );

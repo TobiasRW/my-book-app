@@ -2,11 +2,11 @@
 
 
 import Reccomended from "./components/homepage-sections/Recommended";
-import TopNav from "./components/navs/TopNav";
+import TopNav from "./components/navs/Back";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-11/12 mx-auto">
       <div className="mt-4">
         <h1 className="font-satoshi text-4xl">Book Buddy</h1>
       </div>

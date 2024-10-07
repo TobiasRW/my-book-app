@@ -8,6 +8,7 @@ export default function BookList({ books }) {
       {books.map((book, index) => (
         <li key={index} className="">
           <BookCard
+            id={book.id}
             title={book.title}
             author={book.author}
             pageCount={book.pageCount}
