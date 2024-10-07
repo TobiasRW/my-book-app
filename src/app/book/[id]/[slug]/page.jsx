@@ -1,5 +1,7 @@
 import Back from '@/app/components/navs/Back';
 import Button from '@/app/components/navs/Button';
+import ReadMoreLess from '@/app/components/searchedBookPage-sections/ReadMoreLess';
+import BookFacts from '@/app/components/searchedBookPage-sections/BookFacts';
 import React from 'react';
 import sharp from 'sharp';
 
@@ -31,6 +33,7 @@ export default async function BookDetailPage({ params }) {
             author: data.volumeInfo.authors?.join(', ') || 'Unknown Author',
             pageCount: data.volumeInfo.pageCount || 'N/A',
             publishDate: data.volumeInfo.publishedDate || 'N/A',
+            publisher: data.volumeInfo.publisher || 'N/A',
             isbn: data.volumeInfo.industryIdentifiers?.[0]?.identifier || 'N/A',
             coverID: data.volumeInfo.imageLinks?.thumbnail,
             rating: data.volumeInfo.averageRating || 'No Rating',
@@ -85,20 +88,36 @@ export default async function BookDetailPage({ params }) {
                 const avgB = Math.round(totalB / count);
                 averageColor = `rgb(${avgR}, ${avgG}, ${avgB})`;
             }
+
+            // format publish date to year only
+            if (book.publishDate.length > 4) {
+                book.publishDate = book.publishDate.slice(0, 4);
+            }
+
+            //remove word 'publishing' from publisher
+            if (book.publisher.includes('Publishing') ) {
+                book.publisher = book.publisher.replace('Publishing', '');
+            }
         }
     } catch (err) {
         console.error('Error fetching book details:', err);
         error = 'An error occurred while fetching the book details. Please try again later.';
     }
 
+    // Format the description by replacing HTML tags 
+    const formattedDescription = book.description
+        .replace(/<\/?p>/g, '\n\n')  // Replace <p> and </p> with two line breaks
+        .replace(/<\/?br>/g, '\n')    // Replace <br> with a line break
+        .replace(/<\/?[^>]+(>|$)/g, ""); // Remove any other remaining HTML tags
+
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen pb-32">
             {error && (
                 <div className="max-w-md w-11/12 mx-auto bg-red-500 text-white text-sm text-center p-4 rounded mt-10">
                     {error}
                 </div>
             )}
-            <Back />
+            <Back color={averageColor} />
             <section
                 className='flex flex-col items-center justify-center gap-2 pt-20 pb-10'
                 style={{ backgroundColor: averageColor }}
@@ -115,6 +134,19 @@ export default async function BookDetailPage({ params }) {
                 </div>
 
                 <Button content="+ Add to library" btnType="primary" />
+            </section>
+            <section className='rounded-t-[1.75rem] w-full -mt-5 bg-background'>
+                <div className="w-10/12 mx-auto pt-10 flex flex-col gap-4">
+                    <h2 className='font-bold text-lg truncate'>About: {book.title}</h2>
+                    <div className="bg-darkgray rounded-2xl">
+                        <ReadMoreLess text={formattedDescription} />
+                        <BookFacts book={book} />
+                    </div>
+                    <div className="">
+                        <h2 className='font-bold text-lg truncate mt-4'>More by {book.author}</h2>
+
+                    </div>
+                </div>
             </section>
         </div>
     );

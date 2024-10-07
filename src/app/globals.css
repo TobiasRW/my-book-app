@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -72,4 +78,16 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Satoshi', sans-serif;
+}
+
+p {
+  font-family: 'Satoshi', sans-serif;
+}
+
+button {
+  font-family: 'Satoshi', sans-serif;
 }

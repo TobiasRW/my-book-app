@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 
-export default function Back() {
+export default function Back( {color}) {
   const router = useRouter();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -27,14 +27,18 @@ export default function Back() {
     }
   });
 
-  const bgClass = scrolled ? 'bg-darkgray/20 backdrop-blur-lg' : '';
+  const bgStyle = scrolled
+  ? { backgroundColor: color }
+  : {};
+
 
   return (
     <motion.div
-      className={`fixed top-0 w-full ${bgClass}`}
+      className="fixed top-0 w-full z-[100] rounded-b-xl"
+      style={bgStyle}
       variants={{
-        visible: { y: 0 },
-        hidden: { y: '-100%' },
+        visible: { y: 0, opacity: 1},
+        hidden: { y: '-100%', opacity: 0},
       }}
       animate={hidden ? 'hidden' : 'visible'}
       transition={{ duration: 0.2, ease: 'easeInOut' }}
