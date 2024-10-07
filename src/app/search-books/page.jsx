@@ -62,6 +62,20 @@ export default async function SearchBooksPage({ searchParams }) {
             rating: item.volumeInfo.averageRating || 'No Rating', // Get rating
           }));
 
+           // Remove duplicates based on ISBN
+          const seenIsbns = new Set();
+          books = books.filter((book) => {
+            if (book.isbn === 'N/A') {
+              return true; // Keep books without ISBN
+            }
+            if (seenIsbns.has(book.isbn)) {
+              return false; // Duplicate ISBN found, exclude this book
+            } else {
+              seenIsbns.add(book.isbn);
+              return true; // First occurrence, include this book
+            }
+          });
+
           // Sort books by exact title match first
           books.sort((a, b) => {
             const queryLower = query.toLowerCase();
