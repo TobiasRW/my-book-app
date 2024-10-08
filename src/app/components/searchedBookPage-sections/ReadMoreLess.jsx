@@ -20,7 +20,7 @@ export default function ReadMoreLess({ text }) {
                 animate={{ height: isExpanded ? 'auto' : '180px' }}
                 transition={{ duration: 0.3 }}
             >
-                <p className="text-base text-offwhite/60 p-4">
+                <p className="text-base dark:text-offwhite/60 p-4">
                     {text}
                 </p>
             </motion.div>

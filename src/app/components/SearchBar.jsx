@@ -52,10 +52,10 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
       <div className="max-w-md mx-auto flex gap-3 items-center pt-6">
         <Link
           href="/"
-          className="bg-darkgray rounded-full flex justify-center items-center p-1"
+          className="bg-offwhite dark:bg-darkgray rounded-full flex justify-center items-center p-1"
         >
           <svg
-            className="h-6 w-6 text-textgray"
+            className="h-6 w-6 text-darkgray dark:text-textgray"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -72,11 +72,11 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
         </Link>
         <form
           onSubmit={handleSubmit}
-          className="relative flex items-center w-full h-10 rounded-xl focus-within:shadow-lg bg-darkgray overflow-hidden"
+          className="relative flex items-center w-full h-10 rounded-xl focus-within:shadow-lg bg-offwhite dark:bg-darkgray overflow-hidden"
         >
           <button
             type="submit"
-            className="grid place-items-center h-full w-12 text-gray-300"
+            className="grid place-items-center h-full w-12 text-darkgray dark:text-gray-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +94,7 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
             </svg>
           </button>
           <input
-            className="h-full w-full outline-none text-sm text-gray-400 bg-darkgray"
+            className="h-full w-full outline-none text-sm text-gray-400 bg-offwhite dark:bg-darkgray"
             type="text"
             placeholder="Search by title, author or ISBN..."
             value={query}
@@ -102,7 +102,7 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
           />
           <button
             type="button"
-            className="grid place-items-center h-full w-12 text-gray-300"
+            className="grid place-items-center h-full w-12 text-darkgray dark:text-gray-300"
             onClick={clearSearch}
           >
             <svg

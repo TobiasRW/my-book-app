@@ -9,7 +9,7 @@ export default function () {
   const pathname = usePathname();
 
   return (
-    <header className="fixed bottom-0 w-full bg-darkgray/20 backdrop-blur-lg pb-2 pt-1">
+    <header className="fixed bottom-0 w-full bg-offwhite/20 dark:bg-darkgray/20 backdrop-blur-lg pb-2 pt-1 z-[200]">
       <nav className="flex justify-between w-11/12 mx-auto items-center h-16">
         <Link href="/" className=" w-10 flex flex-col justify-center items-center">
           <House size={28} weight={pathname === "/" ? "fill" : "regular"}  />

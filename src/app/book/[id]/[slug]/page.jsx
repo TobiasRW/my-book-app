@@ -138,7 +138,7 @@ export default async function BookDetailPage({ params }) {
             <section className='rounded-t-[1.75rem] w-full -mt-5 bg-background'>
                 <div className="w-10/12 mx-auto pt-10 flex flex-col gap-4">
                     <h2 className='font-bold text-lg truncate'>About: {book.title}</h2>
-                    <div className="bg-darkgray rounded-2xl">
+                    <div className="bg-offwhite drop-shadow-xl dark:drop-shadow-none dark:bg-darkgray rounded-2xl">
                         <ReadMoreLess text={formattedDescription} />
                         <BookFacts book={book} />
                     </div>

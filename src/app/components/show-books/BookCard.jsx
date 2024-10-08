@@ -29,10 +29,10 @@ export default function BookCard({ title, author, pageCount, publishDate, isbn, 
         />
 
         <div className="flex flex-col w-4/5 border-b border-lightgray overflow-hidden">
-          <h2 className="text-lg font-bold mb-2 text-white truncate">{title}</h2>
-          <p className="text-base mb-1 text-textgray truncate">{author}</p>
-          <p className="text-sm mb-1 text-textgray">{pageCount} pages</p>
-          <div className="text-sm mb-1 text-textgray flex gap-1">
+          <h2 className="text-lg font-bold mb-2 text-darkgray dark:text-white truncate">{title}</h2>
+          <p className="text-base mb-1 text-lightgray dark:text-textgray truncate">{author}</p>
+          <p className="text-sm mb-1 text-lightgray dark:text-textgray">{pageCount} pages</p>
+          <div className="text-sm mb-1 text-lightgray dark:text-textgray flex gap-1">
             {rating > 0 ? <StarRating rating={rating} /> : "No Rating"}
           </div>
         </div>

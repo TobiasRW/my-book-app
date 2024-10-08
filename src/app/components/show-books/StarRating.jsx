@@ -1,4 +1,6 @@
 import React from "react";
+import { FaStar } from "react-icons/fa6";
+
 
 export default function StarRating({ rating }) {
   const stars = [];
@@ -26,8 +28,8 @@ export default function StarRating({ rating }) {
   //   }
   // }
 
-  return <div className="flex gap-1">
+  return <div className="flex gap-1 justify-center items-center">
     <p>{rating}</p>
-    <img src={fullStar} className="w-4" alt="Full star" />
+    <FaStar className="w-4 text-darkgray dark:text-offwhite" />
     </div>;
 }
