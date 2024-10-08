@@ -30,7 +30,7 @@ export default async function SearchBooksPage({ searchParams }) {
 
       // Request books from Google Books API based on search query and API key.
       const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&key=${API_KEY}&maxResults=10&orderBy=relevance&langRestrict=en&printType=books`
+        `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&key=${API_KEY}&maxResults=20&orderBy=relevance&langRestrict=en&printType=books`
       );
       
       // Parse the response JSON data
@@ -44,7 +44,9 @@ export default async function SearchBooksPage({ searchParams }) {
         const filteredItems = data.items.filter((item) => {
           const authorsExist = item.volumeInfo.authors && item.volumeInfo.authors.length > 0;
           const pageCountExists = item.volumeInfo.pageCount && item.volumeInfo.pageCount > 0;
-          return authorsExist && pageCountExists;
+          const isEnglish = item.volumeInfo.language === 'en'; 
+          return authorsExist && pageCountExists && isEnglish;
+          
         });
 
         if (filteredItems.length === 0) {

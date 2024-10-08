@@ -4,6 +4,7 @@ import ReadMoreLess from '@/app/components/searchedBookPage-sections/ReadMoreLes
 import BookFacts from '@/app/components/searchedBookPage-sections/BookFacts';
 import React from 'react';
 import sharp from 'sharp';
+import MoreBooks from '@/app/components/searchedBookPage-sections/MoreBooks'; // Import the new component
 
 export default async function BookDetailPage({ params }) {
     const { id } = params;
@@ -29,11 +30,12 @@ export default async function BookDetailPage({ params }) {
 
         // Create a book object with the required details
         book = {
+            id: data.id,
             title: data.volumeInfo.title || 'No Title',
             author: data.volumeInfo.authors?.join(', ') || 'Unknown Author',
             pageCount: data.volumeInfo.pageCount || 'N/A',
             publishDate: data.volumeInfo.publishedDate || 'N/A',
-            publisher: data.volumeInfo.publisher || 'N/A',
+            publisher: data.volumeInfo.publisher?.replace('Publishing', '') || 'N/A',
             isbn: data.volumeInfo.industryIdentifiers?.[0]?.identifier || 'N/A',
             coverID: data.volumeInfo.imageLinks?.thumbnail,
             rating: data.volumeInfo.averageRating || 'No Rating',
@@ -95,20 +97,24 @@ export default async function BookDetailPage({ params }) {
             }
 
             //remove word 'publishing' from publisher
-            if (book.publisher.includes('Publishing') ) {
+            if (book.publisher.includes('Publishing')) {
                 book.publisher = book.publisher.replace('Publishing', '');
             }
         }
+
     } catch (err) {
         console.error('Error fetching book details:', err);
         error = 'An error occurred while fetching the book details. Please try again later.';
     }
 
     // Format the description by replacing HTML tags 
-    const formattedDescription = book.description
+    const formattedDescription = book?.description
         .replace(/<\/?p>/g, '\n\n')  // Replace <p> and </p> with two line breaks
         .replace(/<\/?br>/g, '\n')    // Replace <br> with a line break
         .replace(/<\/?[^>]+(>|$)/g, ""); // Remove any other remaining HTML tags
+
+    // Extract primary author
+    const primaryAuthor = book?.author.split(',')[0].trim();
 
     return (
         <div className="min-h-screen pb-32">
@@ -123,29 +129,26 @@ export default async function BookDetailPage({ params }) {
                 style={{ backgroundColor: averageColor }}
             >
                 <img
-                    src={book.coverID || defaultCover}
+                    src={book?.coverID || defaultCover}
                     className="w-2/6 rounded-md aspect-[2/3] object-cover drop-shadow-xl"
-                    alt={`${book.title} cover`}
+                    alt={`${book?.title} cover`}
                 />
 
                 <div className="text-center">
-                    <h1 className='text-2xl font-bold text-white'>{book.title}</h1>
-                    <p className='text-base mb-1 text-offwhite/60'>{book.author}</p>
+                    <h1 className='text-2xl font-bold text-white'>{book?.title}</h1>
+                    <p className='text-base mb-1 text-offwhite/60'>{book?.author}</p>
                 </div>
 
                 <Button content="+ Add to library" btnType="primary" />
             </section>
             <section className='rounded-t-[1.75rem] w-full -mt-5 bg-background'>
                 <div className="w-10/12 mx-auto pt-10 flex flex-col gap-4">
-                    <h2 className='font-bold text-lg truncate'>About: {book.title}</h2>
+                    <h2 className='font-bold text-lg truncate'>About: {book?.title}</h2>
                     <div className="bg-offwhite drop-shadow-xl dark:drop-shadow-none dark:bg-darkgray rounded-2xl">
                         <ReadMoreLess text={formattedDescription} />
                         <BookFacts book={book} />
                     </div>
-                    <div className="">
-                        <h2 className='font-bold text-lg truncate mt-4'>More by {book.author}</h2>
-
-                    </div>
+                    <MoreBooks primaryAuthor={primaryAuthor} currentBookId={book.id} currentTitle={book.title} />
                 </div>
             </section>
         </div>
