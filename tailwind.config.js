@@ -18,6 +18,9 @@ module.exports = {
       fontFamily: {
         satoshi: ["Satoshi", "sans-serif"],
       },
+      fontSize: {
+        "2xs": ".625rem",
+      },
     },
   },
   plugins: [],

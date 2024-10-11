@@ -1,4 +1,4 @@
-import Navigation from "./components/navs/Navigation";
+import NavWrapper from "./components/navs/NavWrapper";
 import "./globals.css";
 
 export const metadata = {
@@ -12,8 +12,8 @@ export default function RootLayout({ children }) {
       <head>{/* Add custom meta tags or links here */}</head>
       <body>
         {/* Include global components like a header or footer here */}
-        <Navigation />
-        <main className="">{children}</main>
+        <NavWrapper /> 
+        <main>{children}</main>
       </body>
     </html>
   );

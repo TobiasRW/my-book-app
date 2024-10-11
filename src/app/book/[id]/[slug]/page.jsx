@@ -2,6 +2,7 @@ import Back from '@/app/components/navs/Back';
 import Button from '@/app/components/navs/Button';
 import ReadMoreLess from '@/app/components/searchedBookPage-sections/ReadMoreLess';
 import BookFacts from '@/app/components/searchedBookPage-sections/BookFacts';
+import Link from 'next/link';
 import React from 'react';
 import sharp from 'sharp';
 import MoreBooks from '@/app/components/searchedBookPage-sections/MoreBooks'; // Import the new component
@@ -151,6 +152,13 @@ export default async function BookDetailPage({ params }) {
                     <MoreBooks primaryAuthor={primaryAuthor} currentBookId={book.id} currentTitle={book.title} />
                 </div>
             </section>
+            <Link href={`https://www.amazon.com/s?k=${book.title + ' ' + primaryAuthor}`}
+                target="_blank"
+                rel="noreferrer"
+                className='flex justify-center items-center mt-2'
+            >
+                <Button content="Buy on Amazon" btnType="secondary" />
+            </Link>
         </div>
     );
 }
