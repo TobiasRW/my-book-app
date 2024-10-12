@@ -14,6 +14,10 @@ export default async function BookDetailPage({ params }) {
     let error = '';
     let averageColor = '#2a4b9a'; // Default background color
 
+    let avgR = 42; 
+    let avgG = 75;
+    let avgB = 154;
+
     const defaultCover = "/assets/img/default-cover.webp"; // Default cover image path
 
     const API_KEY = process.env.GOOGLE_API_KEY;
@@ -86,9 +90,9 @@ export default async function BookDetailPage({ params }) {
 
             // Calculate the average color
             if (count > 0) {
-                const avgR = Math.round(totalR / count);
-                const avgG = Math.round(totalG / count);
-                const avgB = Math.round(totalB / count);
+                avgR = Math.round(totalR / count);
+                avgG = Math.round(totalG / count);
+                avgB = Math.round(totalB / count);
                 averageColor = `rgb(${avgR}, ${avgG}, ${avgB})`;
             }
 
@@ -127,7 +131,9 @@ export default async function BookDetailPage({ params }) {
             <Back color={averageColor} />
             <section
                 className='flex flex-col items-center justify-center gap-2 pt-20 pb-10'
-                style={{ backgroundColor: averageColor }}
+                style={{
+                    background: `linear-gradient(to bottom, ${averageColor} 70%, rgba(${avgR + 30}, ${avgG + 30}, ${avgB + 30}, 1) 100%)`
+                }}
             >
                 <img
                     src={book?.coverID || defaultCover}
