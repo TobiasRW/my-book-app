@@ -7,11 +7,12 @@ import { useRouter } from 'next/navigation';
 export default function SettingsPageContent() {
   const router = useRouter();
 
+  // Function to handle the logout process
   const handleLogout = async () => {
     try {
-      await fetch('/api/logout', {
+      await fetch('/api/logout', { // Fetch the /api/logout endpoint to log out the user (endpoint clears the session)
         method: 'POST',
-        credentials: 'include',
+        credentials: 'include', // Include cookies in the request
       });
       router.push('/'); // Redirect to the sign-in page after logout
     } catch (err) {

@@ -12,15 +12,17 @@ export default function Home() {
   const [user, setUser] = useState('Guest');
   const router = useRouter();
 
-
+  // UseEffect to fetch the current user
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch('/api/user', {
+        const response = await fetch('/api/user', { // Fetch the user from the /api/user endpoint
           method: 'GET',
-          credentials: 'include',
+          credentials: 'include', // Include cookies in the request
         });
-        const data = await response.json();
+        const data = await response.json(); // Parse the response JSON data
+
+        // If a valid username is returned, set the user state to the username. Otherwise, set it to 'Guest'
         if (data.username) {
           setUser(data.username);
         } else {
@@ -31,8 +33,9 @@ export default function Home() {
         setUser('Guest');
       }
     };
-    fetchUser();
-  }, []);
+  
+    fetchUser(); // Call the fetchUser function
+  }, []); // Empty dependency array ensures the effect runs only once when the component mounts
 
   return (
     <div className="flex flex-col gap-4 w-11/12 mx-auto">

@@ -11,41 +11,42 @@ export default function SignUpPage() {
     const [error, setError] = useState(null);
     const router = useRouter();  
 
-    // Handle form submission
+    // Handle form submission when the user tries to sign up
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent the default form submission. This is important to prevent the page from reloading
+        e.preventDefault(); // Prevent default form submission behavior (page reload)
 
         // Check if the password and confirm password fields match
         if (formData.password !== formData.confirmPassword) {
             setError("Passwords do not match.");
-            return;
+            return; // Exit the function to prevent further execution
         }
 
         // Make a POST request to the create_user API endpoint
         try {
-            const response = await fetch("/api/create_user", {
+            const response = await fetch("/api/create_user", { // Fetch the /api/create_user endpoint
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    username: formData.username,
-                    password: formData.password,
+                headers: { "Content-Type": "application/json" }, // Set the content type to JSON
+                body: JSON.stringify({ 
+                    username: formData.username, // Send the username from the form data
+                    password: formData.password, // Send the password from the form data
                 }),
             });
 
-            // Parse the JSON response
+            // Parse the JSON response from the server
             const result = await response.json();
 
             // If an error occurred, set the error state
             if (result.error) {
-                setError(result.error);
+                setError(result.error); // Display the error message from the API response
                 // console.error("An error occurred:", result.error);
             } else {
+                // If successful, clear the error state and redirect to '/' (login page)
                 setError(null);
                 router.push("/");
             }
         } catch (err) {
             // console.error("An error occurred:", err);
-            setError("An error occurred while creating your account.");
+            setError("An error occurred while creating your account."); // Display a generic error message if an error occurred
         }
     };
 

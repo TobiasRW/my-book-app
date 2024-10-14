@@ -5,14 +5,15 @@ import SettingsPageContent from './components/SettingsPageContent';
 import Link from 'next/link';
 
 export default function SettingsPage() {
-    const cookieStore = cookies();
-    const token = cookieStore.get('token')?.value;
+    const cookieStore = cookies(); // Access cookies form the request using the cookies() method from Next.js
+    const token = cookieStore.get('token')?.value; // Retrieve the token cookie value from the cookies, if available
 
     if (!token) {
         // If no token is present, redirect to the sign-in page
         redirect('/');
     } else {
         try {
+            // Verify the token using the JWT secret key
             jwt.verify(token, process.env.JWT_SECRET);
         } catch (err) {
             // If the token is invalid, redirect to the sign-in page
@@ -20,7 +21,6 @@ export default function SettingsPage() {
         }
     }
 
-    // Render the SettingsPageContent client component
     return (
         <div className='mt-2'>
             <Link
