@@ -23,6 +23,8 @@ export default function Home() {
         });
         const data = await response.json(); // Parse the response JSON data
 
+        // console.log('User data fetched from /api/user:', data);
+
         // If a valid username is returned, set the user state to the username. Otherwise, set it to 'Guest'
         if (data.username) {
           setUser(data.username);
@@ -37,6 +39,8 @@ export default function Home() {
   
     fetchUser(); // Call the fetchUser function
   }, []); // Empty dependency array ensures the effect runs only once when the component mounts
+
+  
 
   return (
     <div className="flex flex-col gap-4 w-11/12 mx-auto">

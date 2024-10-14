@@ -20,7 +20,7 @@ export async function GET(req) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // If the token is valid, return the username from the decoded token payload in the response
-    return NextResponse.json({ username: decoded.username });
+    return NextResponse.json({ username: decoded.username, userId: decoded.userId });
   } catch (error) {
     // If the token is invalid or an error occurs, return an error response
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });

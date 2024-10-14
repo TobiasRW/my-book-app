@@ -21,7 +21,7 @@ export async function POST(req) {
 
         // Query the database to find the user with the provided username
         const [rows] = await connection.query(
-            "SELECT * FROM book_users WHERE username = ?",
+            "SELECT PK_ID AS id, username, password FROM book_users WHERE username = ?",
             [username]
         );
 
