@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Reccomended from "./components/Recommended";
 import TopNav from "../components/navs/Back";
 import { IoIosSettings } from "react-icons/io"
+import { PiSignInFill } from "react-icons/pi";
 
 
 export default function Home() {
@@ -44,6 +45,11 @@ export default function Home() {
         {user !== 'Guest' && (
           <Link href="/settings" className=" bg-offwhite dark:bg-darkgray p-1 rounded-full text-xl text-darkgray dark:text-offwhite">
             <IoIosSettings />
+          </Link>
+        )}
+        {user === 'Guest' && (
+          <Link href="/" className=" bg-offwhite dark:bg-darkgray p-1 rounded-full text-xl text-darkgray dark:text-offwhite">
+            <PiSignInFill />
           </Link>
         )}
       </div>
