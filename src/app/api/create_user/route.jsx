@@ -1,4 +1,3 @@
-// Import necessary modules
 import createConnection from "../../lib/db"; 
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt'; 

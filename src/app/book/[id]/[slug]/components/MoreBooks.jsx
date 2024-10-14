@@ -1,7 +1,7 @@
 // components/moreBooks/MoreBooks.jsx
 
 import React from 'react';
-import MoreBookList from '@/app/components/show-books/MoreBookList';
+import MoreBookList from '@/app/book/[id]/[slug]/components/MoreBookList';
 
 export default async function MoreBooks({ primaryAuthor, currentBookId, currentTitle }) {
     const API_KEY = process.env.GOOGLE_API_KEY;

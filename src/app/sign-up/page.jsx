@@ -41,7 +41,7 @@ export default function SignUpPage() {
                 // console.error("An error occurred:", result.error);
             } else {
                 setError(null);
-                router.push("/sign-in");
+                router.push("/");
             }
         } catch (err) {
             // console.error("An error occurred:", err);
