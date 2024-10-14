@@ -7,7 +7,7 @@ export default function NavWrapper() {
   const pathname = usePathname(); 
 
   // Define routes where the Navigation should be hidden
-  const hideNavigationOnRoutes = ["/sign-up" , "/sign-in"];
+  const hideNavigationOnRoutes = ["/sign-up" , "/"];
 
   // Conditionally render the Navigation based on the current pathname
   if (hideNavigationOnRoutes.includes(pathname)) {

@@ -6,7 +6,7 @@ export default function Button(props) {
         } else if (props.btnType === "secondary") {
             return "text-darkgray dark:text-offwhite drop-shadow-xl text-base bg-offwhite dark:bg-darkgray font-bold font-satoshi rounded-lg px-5 py-2.5 mb-2 w-10/12";
         } else if (props.btnType === "third") {
-            return "flex justify-center items-center bg-darkgray w-full dark:bg-offwhite text-offwhite dark:text-darkgray font-bold font-satoshi rounded px-5 py-2.5 mb-2 w-10/12";
+            return "flex justify-center items-center bg-darkgray w-full dark:bg-offwhite text-offwhite dark:text-darkgray font-bold font-satoshi rounded px-5 py-2.5 mb-2";
         }
     }
 
