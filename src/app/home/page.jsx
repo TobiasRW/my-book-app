@@ -38,9 +38,11 @@ export default function Home() {
     <div className="flex flex-col gap-4 w-11/12 mx-auto">
       <div className="mt-8 flex justify-between items-center">
         <h1 className="font-satoshi text-3xl font-bold">Book Buddy</h1>
-        <Link href="/settings" className=" bg-offwhite dark:bg-darkgray p-1 rounded-full text-xl text-darkgray dark:text-offwhite">
-          <IoIosSettings/>
-        </Link>
+        {user !== 'Guest' && (
+          <Link href="/settings" className=" bg-offwhite dark:bg-darkgray p-1 rounded-full text-xl text-darkgray dark:text-offwhite">
+            <IoIosSettings />
+          </Link>
+        )}
       </div>
       <div className=" ">
         <h2 className="font-satoshi font-light text-2xl">Welcome {user}</h2> {/* Dynamic Welcome Message */}

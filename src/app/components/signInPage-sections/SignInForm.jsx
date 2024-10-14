@@ -55,6 +55,12 @@ export default function SignInForm() {
         </div>
       </div>
 
+      {error && (
+        <div className="text-red-500">
+          <p>{error}</p>
+        </div>
+      )}
+      
       <form onSubmit={handleSubmit}>
         <InputField
           inputType="primary"
@@ -85,11 +91,6 @@ export default function SignInForm() {
         </div>
       </form>
 
-      {error && (
-        <div className="text-red-500 mt-2">
-          <p>{error}</p>
-        </div>
-      )}
 
       <div className="flex justify-center items-center gap-2 font-light">
         <p className="text-textgray italic">New user?</p>
