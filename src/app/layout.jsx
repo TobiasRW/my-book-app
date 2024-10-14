@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>{/* Add custom meta tags or links here */}</head>
       <body>
         {/* Include global components like a header or footer here */}

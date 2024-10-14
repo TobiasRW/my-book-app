@@ -1,11 +1,11 @@
 import Back from '@/app/components/navs/Back';
 import Button from '@/app/components/navs/Button';
-import ReadMoreLess from '@/app/components/searchedBookPage-sections/ReadMoreLess';
-import BookFacts from '@/app/components/searchedBookPage-sections/BookFacts';
+import ReadMoreLess from '@/app/book/[id]/[slug]/components/ReadMoreLess';
+import BookFacts from '@/app/book/[id]/[slug]/components/BookFacts';
 import Link from 'next/link';
 import React from 'react';
 import sharp from 'sharp';
-import MoreBooks from '@/app/components/searchedBookPage-sections/MoreBooks'; // Import the new component
+import MoreBooks from '@/app/book/[id]/[slug]/components/MoreBooks'; // Import the new component
 
 export default async function BookDetailPage({ params }) {
     const { id } = params;

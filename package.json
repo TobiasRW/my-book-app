@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
+    "bcrypt": "^5.1.1",
     "framer-motion": "^11.9.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "mysql2": "^3.11.3",
     "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18",

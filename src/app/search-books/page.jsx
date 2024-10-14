@@ -2,8 +2,8 @@
 export const dynamic = 'force-dynamic';
 
 import React from 'react';
-import SearchBar from '../components/SearchBar';
-import BookList from '../components/show-books/BookList';
+import SearchBar from './components/SearchBar';
+import BookList from './components/BookList';
 
 export default async function SearchBooksPage({ searchParams }) {
   // Initialize variables

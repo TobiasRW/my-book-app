@@ -13,11 +13,16 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a090b;
     --foreground: #ededed;
   }
+} */
+
+.dark {
+  --background: #0a090b;
+  --foreground: #ededed;
 }
 
 @layer utilities {

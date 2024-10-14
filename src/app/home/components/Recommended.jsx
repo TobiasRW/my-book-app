@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import ReccomendedBook from '../show-books/RecommendedBook';
+import ReccomendedBook from './RecommendedBook';
 
 export default function Reccomended() {
   const [reccomendedBooks, setReccomendedBooks] = useState([]);
