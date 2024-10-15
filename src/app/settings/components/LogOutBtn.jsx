@@ -3,6 +3,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { BiLogOut } from "react-icons/bi";
 
 export default function SettingsPageContent() {
   const router = useRouter();
@@ -21,14 +22,9 @@ export default function SettingsPageContent() {
   };
 
   return (
-    <div className="w-11/12 mx-auto mt-4 flex flex-col gap-6">
-      <h1 className="text-2xl font-bold mb-4">Settings</h1>
-      <button
-        onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded"
-      >
-        Log Out
-      </button>
+    <div className="flex justify-between items-center" onClick={handleLogout}>
+      <p>Log Out</p>
+      <BiLogOut className="text-2xl"/>
       {/* Add other settings options here */}
     </div>
   );

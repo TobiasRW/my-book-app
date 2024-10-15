@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
-import SettingsPageContent from './components/SettingsPageContent';
+import LogOutBtn from './components/LogOutBtn';
+import ToggleTheme from './components/ToggleTheme';
 import Link from 'next/link';
-
+import { BiLogOut } from "react-icons/bi";
 export default function SettingsPage() {
     const cookieStore = cookies(); // Access cookies form the request using the cookies() method from Next.js
     const token = cookieStore.get('token')?.value; // Retrieve the token cookie value from the cookies, if available
@@ -22,7 +23,7 @@ export default function SettingsPage() {
     }
 
     return (
-        <div className='mt-2'>
+        <div className='mt-4 w-11/12 mx-auto'>
             <Link
                 href="/home"
                 className="flex"
@@ -44,7 +45,19 @@ export default function SettingsPage() {
                 </svg>
                 <p>home</p>
             </Link>
-            <SettingsPageContent />
+            <div className="mt-4">
+                <h1 className="text-2xl font-bold mb-4">Settings</h1>
+            </div>
+            <section className="mt-4 bg-offwhite drop-shadow-xl dark:drop-shadow-none dark:bg-darkgray rounded-2xl">
+                <div className=" p-4 border-b border-lightgray ">
+                   <LogOutBtn />
+                </div>
+                <div className="flex justify-between items-center p-4 ">
+                    <p>Toggle Theme</p>
+                    <ToggleTheme />
+                </div>
+            </section>
+
         </div>
     )
 }
