@@ -25,12 +25,15 @@ export async function GET(req) {
 
     // Query the database to get the shelves associated with the user
     const [rows] = await connection.query(
-      "SELECT PK_ID AS shelf_id, shelf_name FROM book_shelves WHERE user_id = ?",
+      "CALL GetShelves(?)",
       [userId]
     );
 
+    // Stored procedure returns multiple result sets. Access the first one.
+    const shelves = rows[0]; 
+
     // Return the shelves data as a JSON response
-    return NextResponse.json({ shelves: rows });
+    return NextResponse.json({ shelves: shelves });
   } catch (error) {
     // Log any errors and return an error response
     console.error("Error getting shelves:", error);
@@ -68,6 +71,17 @@ export async function POST(req) {
 
     // Create a connection to the database
     connection = await createConnection();
+
+    // Check if a shelf with the same name already exists for the user
+    const [existingShelf] = await connection.query(
+      "SELECT * FROM book_shelves WHERE user_id = ? AND shelf_name = ?",
+      [userId, shelfName]
+    );
+
+    // If the shelf already exists, return an error
+    if (existingShelf.length > 0) {
+      return NextResponse.json({ error: 'A shelf with this name already exists.' }, { status: 400 });
+    }
 
     // Insert the new shelf into the database for the user
     const [result] = await connection.query(
