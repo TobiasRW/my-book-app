@@ -44,7 +44,7 @@ export default function Back( {color}) {
       transition={{ duration: 0.2, ease: 'easeInOut' }}
     >
       <button onClick={() => router.back()} className="mx-2 my-4 text-offwhite flex justify-center items-center">
-        <svg className="h-7 w-7" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="15 6 9 12 15 18" /></svg> <p>Back</p>
+        <svg className="h-7 w-7" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">  <path stroke="none" d="M0 0h24v24H0z" />  <polyline points="15 6 9 12 15 18" /></svg> <p className="text-offwhite">Back</p>
       </button>
     </motion.div>
   );

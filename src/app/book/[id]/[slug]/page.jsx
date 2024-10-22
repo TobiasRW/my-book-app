@@ -6,6 +6,7 @@ import Link from 'next/link';
 import React from 'react';
 import sharp from 'sharp';
 import MoreBooks from '@/app/book/[id]/[slug]/components/MoreBooks'; // Import the new component
+import AddToLibraryButton from './components/AddToLibraryButton';
 
 export default async function BookDetailPage({ params }) {
     const { id } = params;
@@ -146,7 +147,8 @@ export default async function BookDetailPage({ params }) {
                     <p className='text-base mb-1 text-offwhite/60'>{book?.author}</p>
                 </div>
 
-                <Button content="+ Add to library" btnType="primary" />
+                {/* <Button content="+ Add to library" btnType="primary" /> */}
+                <AddToLibraryButton bookId={book.id} />
             </section>
             <section className='rounded-t-[1.75rem] w-full -mt-5 bg-background'>
                 <div className="w-10/12 mx-auto pt-10 flex flex-col gap-4">
