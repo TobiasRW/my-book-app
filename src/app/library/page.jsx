@@ -1,25 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { IoLibrarySharp } from "react-icons/io5";
-import { MdOutlineError, MdOutlineArrowForwardIos, MdDelete } from "react-icons/md"; // Added MdDelete
+import { RiEdit2Fill } from "react-icons/ri";
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import InputField from '../components/inputs/InputField';
-import Button from '../components/navs/Button';
+import ShelfModal from './components/ShelfModal';
+import ShelfList from './components/ShelfList';
+import GuestView from './components/GuestView';
 
-const modalVariants = {
-  hidden: { y: '100%' },
-  visible: { y: 0 },
-  exit: { y: '100%' }
-};
-
-// Variants for the error message
-const errorVariants = {
-  hidden: { opacity: 0, scale: 0.5 },
-  visible: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.5 }
-};
 
 export default function LibraryPage() {
   const [shelves, setShelves] = useState([]);
@@ -28,6 +15,7 @@ export default function LibraryPage() {
   const [shelfError, setShelfError] = useState('');
   const [isGuest, setIsGuest] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   // useEffect to fetch shelves on page load
   useEffect(() => {
@@ -89,6 +77,7 @@ export default function LibraryPage() {
       } else {
         setShelves([...shelves, { shelf_name: shelfName }]); // Updated to remove shelf_id
         setShelfName(''); // Clear the input after creation
+        closeModal(); // Close the modal
       }
     } catch (err) {
       // Log error and set error message
@@ -99,9 +88,7 @@ export default function LibraryPage() {
 
   // Function to delete a shelf
   const handleDeleteShelf = async (shelfName) => {
-    if (!window.confirm(`Are you sure you want to delete the shelf "${shelfName}"?`)) {
-      return;
-    }
+
     try {
       const res = await fetch(`/api/shelves/name/${encodeURIComponent(shelfName)}`, {
         method: 'DELETE',
@@ -149,92 +136,40 @@ export default function LibraryPage() {
     <div className="w-11/12 mx-auto">
       <h1 className="mt-8 text-3xl font-bold">Your Library</h1>
 
-      <AnimatePresence>
-        {showModal && (
-          <motion.div
-            className="modal fixed inset-0 flex items-end justify-center z-[1000]"
-            variants={modalVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            transition={{ type: 'spring', damping: 25, stiffness: 120 }}
-          >
-            <div className="bg-offwhite dark:bg-darkgray p-6 rounded-t-3xl w-full h-[90vh]">
-              <div className="grid grid-cols-3 items-center mb-8">
-                <p onClick={closeModal} className="justify-self-start font-satoshi font-light">Cancel</p>
-                <h2 className="col-span-1 text-center font-bold">Create shelf</h2>
-              </div>
-              <form onSubmit={handleCreateShelf} className="mt-10">
-                <InputField
-                  inputType="secondary"
-                  type="text"
-                  value={shelfName}
-                  onChange={(e) => setShelfName(e.target.value)}
-                  placeholder="Enter Shelf Name"
-                />
-                <Button btnType="third" content="Create Shelf" type="submit" />
-              </form>
-              <AnimatePresence>
-                {shelfError && (
-                  <motion.div
-                    variants={errorVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    transition={{ duration: 0.2 }}
-                    className="grid grid-cols-3 items-center text-darkgray dark:text-offwhite bg-offwhite drop-shadow-xl dark:drop-shadow-none dark:bg-darkgray rounded-xl mb-4 py-4 text-center italic"
-                  >
-                    <MdOutlineError className="text-2xl ml-4" />
-                    <p className="col-span-1 text-nowrap justify-self-center">{shelfError}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <ShelfModal
+        showModal={showModal}
+        closeModal={closeModal}
+        shelfName={shelfName}
+        setShelfName={setShelfName}
+        handleCreateShelf={handleCreateShelf}
+        shelfError={shelfError}
+      />
 
       {isGuest ? (
-        // ... existing code for guest users ...
-        <div className="mt-10">
-          {/* ... */}
-        </div>
+
+        <GuestView />
+        
       ) : (
+
         <>
           {error && <p className="text-red-500">{error}</p>}
 
           <div className="mt-10 mb-4">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Your Shelves</h2>
-              <p className="text-3xl mr-4 cursor-pointer" onClick={openModal}> + </p>
+              <div className="flex gap-2 items-center">
+                <p className="text-3xl mr-4 cursor-pointer" onClick={openModal}> + </p>
+                <RiEdit2Fill className=" text-xl text-darkgray dark:text-offwhite" onClick={() => setIsEditing(!isEditing)} />
+              </div>
             </div>
           </div>
 
-          <div className="bg-offwhite drop-shadow-xl dark:drop-shadow-none dark:bg-darkgray rounded-xl">
-            {shelves.map((shelf) => (
-              <div key={shelf.shelf_name} // Changed key to shelf_name
-                className="py-3 border-b border-lightgray last:border-none flex items-center justify-between"
-              >
-                <Link
-                  href={`/library/shelf/${encodeURIComponent(shelf.shelf_name)}`}
-                  className="flex-1"
-                >
-                  <div className="flex justify-between items-center w-11/12 mx-auto">
-                    <p className="truncate text-lg">{shelf.shelf_name}</p>
-                    <p className="text-textgray text-sm flex items-center gap-1">
-                      {shelf.book_count} <MdOutlineArrowForwardIos />
-                    </p>
-                  </div>
-                </Link>
-                <button
-                  onClick={() => handleDeleteShelf(shelf.shelf_name)}
-                  className="text-red-500 ml-4"
-                >
-                  <MdDelete size={24} />
-                </button>
-              </div>
-            ))}
-          </div>
+          {/* List of user shelfs */}
+          <ShelfList
+            shelves={shelves}
+            isEditing={isEditing}
+            handleDeleteShelf={handleDeleteShelf}
+          />
         </>
       )}
     </div>
