@@ -1,15 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import InputField from '../inputs/InputField';
 import Button from '../navs/Button';
 
+
+
 export default function SignInForm() {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState(null);
   const router = useRouter(); // For programmatic navigation
+  const { setUser } = useContext(UserContext); // Access setUser from context
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +34,7 @@ export default function SignInForm() {
       } else {
         setError(null); // Clear any previous errors
         // Redirect to the home page after successful login
+        setUser(result.username);
         router.push('/home');
       }
     } catch (err) {

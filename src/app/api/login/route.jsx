@@ -56,7 +56,7 @@ export async function POST(req) {
 
         // Prepare a successful response to return to the client
         const response = NextResponse.json(
-            { status: "success" }, // Send succes status
+            { username: user.username, status: "success" }, // Send succes status
             { status: 200 } // HTTP 200 OK status
         );
 
