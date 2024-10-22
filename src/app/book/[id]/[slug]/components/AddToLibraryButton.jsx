@@ -53,11 +53,10 @@ export default function AddToLibraryButton({ bookId }) {
   };
 
   // Function to add book to shelf
-  const handleAddToShelf = async (shelfId) => {
-    // console.log('Adding to shelf:', shelfId); // Debugging line
+  const handleAddToShelf = async (shelfName) => {
     try {
       // Send POST request to add book to shelf
-      const res = await fetch(`/api/shelves/${shelfId}/books`, {
+      const res = await fetch(`/api/shelves/name/${encodeURIComponent(shelfName)}/books`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bookId }),
@@ -136,9 +135,9 @@ export default function AddToLibraryButton({ bookId }) {
                 ) : (
                   shelves.map((shelf) => (
                     <div
-                      key={shelf.shelf_id}
+                      key={shelf.shelf_name}
                       className="grid grid-cols-3 items-center border-b border-lightgray last:border-none"
-                      onClick={() => handleAddToShelf(shelf.shelf_id)}
+                      onClick={() => handleAddToShelf(shelf.shelf_name)}
                     >
                       <ImBooks className="text-2xl ml-4" />
                       <p className="p-4 font-semibold text-lg col-span-1 text-nowrap justify-self-center">

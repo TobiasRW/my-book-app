@@ -5,9 +5,9 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function ShelfPage() {
-  const { shelfId } = useParams();
+  const { shelfName } = useParams(); // Changed to use shelfName
   const [books, setBooks] = useState([]);
-  const [shelfName, setShelfName] = useState('');
+  const [retrievedShelfName, setRetrievedShelfName] = useState('');
   const [error, setError] = useState('');
 
   // Slugify function
@@ -22,8 +22,8 @@ export default function ShelfPage() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        // Fetch books in shelf
-        const res = await fetch(`/api/shelves/${shelfId}/books`);
+        // Fetch books in shelf using shelfName
+        const res = await fetch(`/api/shelves/name/${encodeURIComponent(shelfName)}/books`);
         const data = await res.json();
         
         // Check for errors
@@ -31,7 +31,7 @@ export default function ShelfPage() {
           setError(data.error);
         } else {
           const bookIds = data.books.map((book) => book.book_id); // Map over books and extract book_id
-          setShelfName(data.shelfName); // Set shelf name
+          setRetrievedShelfName(data.shelfName); // Set shelf name
 
           // Fetch book details
           const booksData = await Promise.all(
@@ -58,18 +58,18 @@ export default function ShelfPage() {
     };
 
     fetchBooks(); // Call fetchBooks function
-  }, [shelfId]); // Dependency array with shelfId to re-run when shelfId changes
+  }, [shelfName]); // Dependency array with shelfName
 
   return (
     <div className="min-h-screen w-11/12 mx-auto">
-      <h1>{shelfName || 'Shelf'}</h1>
+      <h1>{retrievedShelfName || 'Shelf'}</h1>
       {error && <p className="text-red-500">{error}</p>}
       <ul>
         {books.map((book) => {
           const slug = generateSlug(book.title);
           return (
             <li key={book.id}>
-              <img src={book.coverID} alt={book.title} />
+              {book.coverID && <img src={book.coverID} alt={book.title} />}
               <p>{book.title}</p>
               <p>{book.author}</p>
               <Link href={`/book/${book.id}/${slug}`}>View Details</Link>

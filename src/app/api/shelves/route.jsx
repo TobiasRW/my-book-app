@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import createConnection from "../../lib/db";
 
-// Handler fot GET requests to /api/shelves endpoint
+//________________GET REQUEST____________________
 export async function GET(req) {
   let connection;
   try {
@@ -30,10 +30,10 @@ export async function GET(req) {
     );
 
     // Stored procedure returns multiple result sets. Access the first one.
-    const shelves = rows[0]; 
+    const shelves = rows[0];
 
     // Return the shelves data as a JSON response
-    return NextResponse.json({ shelves: shelves });
+    return NextResponse.json({ shelves });
   } catch (error) {
     // Log any errors and return an error response
     console.error("Error getting shelves:", error);
@@ -44,7 +44,7 @@ export async function GET(req) {
   }
 }
 
-// Handler for POST requests to /api/shelves endpoint
+//________________POST REQUEST____________________
 export async function POST(req) {
   let connection;
   try {
@@ -84,13 +84,13 @@ export async function POST(req) {
     }
 
     // Insert the new shelf into the database for the user
-    const [result] = await connection.query(
+    await connection.query(
       "INSERT INTO book_shelves (user_id, shelf_name) VALUES (?, ?)",
       [userId, shelfName]
     );
 
-    // Return a success response with the ID of the newly created shelf
-    return NextResponse.json({ status: 'success', shelfId: result.insertId });
+    // Return a success response without shelfId
+    return NextResponse.json({ status: 'success' });
   } catch (error) {
     // Log any errors and return an error response
     console.error("Error creating shelf:", error);
