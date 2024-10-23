@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import InputField from '../../components/inputs/InputField';
 import Button from '../../components/navs/Button';
 import { MdOutlineError } from 'react-icons/md';
+import { Input } from "@/components/ui/input"
 
 const modalVariants = {
     hidden: { y: '100%' },
@@ -37,8 +38,8 @@ export default function ShelfModal({ showModal, closeModal, shelfName, setShelfN
                                 <h2 className="col-span-1 text-center font-bold">Create shelf</h2>
                             </div>
                             <form onSubmit={handleCreateShelf} className="mt-10">
-                                <InputField
-                                    inputType="secondary"
+                                <Input 
+                                className="mb-4"
                                     type="text"
                                     value={shelfName}
                                     onChange={(e) => setShelfName(e.target.value)}

@@ -1,15 +1,16 @@
-'use client';  
+'use client';
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";  
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import InputField from "../components/inputs/InputField";
 import Button from "../components/navs/Button";
+import { Input } from "@/components/ui/input"
 
 export default function SignUpPage() {
     const [formData, setFormData] = useState({ username: "", password: "", confirmPassword: "" });
     const [error, setError] = useState(null);
-    const router = useRouter();  
+    const router = useRouter();
 
     // Handle form submission when the user tries to sign up
     const handleSubmit = async (e) => {
@@ -26,7 +27,7 @@ export default function SignUpPage() {
             const response = await fetch("/api/create_user", { // Fetch the /api/create_user endpoint
                 method: "POST",
                 headers: { "Content-Type": "application/json" }, // Set the content type to JSON
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     username: formData.username, // Send the username from the form data
                     password: formData.password, // Send the password from the form data
                 }),
@@ -63,36 +64,38 @@ export default function SignUpPage() {
             {error && <p className="text-red-500">{error}</p>}
 
             <form onSubmit={handleSubmit}>
-                <InputField
-                    inputType="primary"
-                    label="Username"
-                    labelFor="username"
-                    type="text"
-                    name="username"
-                    placeholder="Enter Username..."
-                    value={formData.username}
-                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                />
-                <InputField
-                    inputType="primary"
-                    label="Password"
-                    labelFor="password"
-                    type="password"
-                    name="password"
-                    placeholder="Enter password"
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                />
-                <InputField
-                    inputType="primary"
-                    label="Confirm Password"
-                    labelFor="confirmPassword"
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                />
+                <div className="grid w-full max-w-sm items-center gap-1.5 mb-4">
+                    <label htmlFor="username" className="font-light font-satoshi">Username</label>
+                    <Input
+                        type="text"
+                        name="username"
+                        placeholder="Enter Username..."
+                        value={formData.username}
+                        onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    />
+                </div>
+
+                <div className="grid w-full max-w-sm items-center gap-1.5 mb-4">
+                    <label htmlFor="password" className="font-light font-satoshi">Password</label>
+                    <Input
+                        type="password"
+                        name="password"
+                        placeholder="Enter password"
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    />
+                </div>
+   
+                <div className="grid w-full max-w-sm items-center gap-1.5 mb-4">
+                    <label htmlFor="confirmPassword" className="font-light font-satoshi">Confrim password</label>
+                    <Input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm password"
+                        value={formData.confirmPassword}
+                        onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    />
+                </div>
                 <div className="flex pt-4">
                     <Button content="Create Account" btnType="third" type="submit" />
                 </div>

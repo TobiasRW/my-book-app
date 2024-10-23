@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import ShelfBookCard from './components/ShelfBookCard';
 import Link from 'next/link';
 
 export default function ShelfPage() {
@@ -10,13 +11,7 @@ export default function ShelfPage() {
   const [retrievedShelfName, setRetrievedShelfName] = useState('');
   const [error, setError] = useState('');
 
-  // Slugify function
-  const generateSlug = (title) => {
-    return title
-      .toLowerCase() // Convert to lowercase
-      .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric characters with hyphens
-      .replace(/(^-|-$)/g, ''); // Remove leading or trailing hyphens
-  };
+
 
   // UseEffect to fetch books on page load
   useEffect(() => {
@@ -25,7 +20,7 @@ export default function ShelfPage() {
         // Fetch books in shelf using shelfName
         const res = await fetch(`/api/shelves/name/${encodeURIComponent(shelfName)}/books`);
         const data = await res.json();
-        
+
         // Check for errors
         if (data.error) {
           setError(data.error);
@@ -62,21 +57,21 @@ export default function ShelfPage() {
 
   return (
     <div className="min-h-screen w-11/12 mx-auto">
-      <h1>{retrievedShelfName || 'Shelf'}</h1>
+      <h1 className="mt-8 text-3xl font-bold">{retrievedShelfName || 'Shelf'}</h1>
       {error && <p className="text-red-500">{error}</p>}
-      <ul>
-        {books.map((book) => {
-          const slug = generateSlug(book.title);
-          return (
-            <li key={book.id}>
-              {book.coverID && <img src={book.coverID} alt={book.title} />}
-              <p>{book.title}</p>
-              <p>{book.author}</p>
-              <Link href={`/book/${book.id}/${slug}`}>View Details</Link>
-            </li>
-          );
-        })}
-      </ul>
+      <div>
+        <div className="flex justify-between items-center py-4">
+          <p className="text-textgray font-bold text-sm">{books.length} {books.length === 1 ? 'BOOK' : 'BOOKS'}</p>
+          <p>sort by</p>
+        </div>
+
+        <div className="flex flex-col gap-6 my-4">
+          {books.map((book) => (
+            <ShelfBookCard key={book.id} book={book} shelfName={shelfName}/>
+          ))}
+        </div>
+
+      </div>
     </div>
   );
 }
