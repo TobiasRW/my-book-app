@@ -108,3 +108,58 @@ export async function POST(req, { params }) {
     if (connection) await connection.end();
   }
 }
+
+//________________DELETE REQUEST____________________
+export async function DELETE(req, { params }) {
+  let connection;
+  try {
+    const { shelfName } = params;
+    const decodedShelfName = decodeURIComponent(shelfName);
+
+    // Retrieve the token from the request cookies
+    const cookieStore = cookies();
+    const token = cookieStore.get('token')?.value;
+
+    if (!token) {
+      return NextResponse.json({ error: 'No token found' }, { status: 401 });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    // Parse the request body to get the book ID
+    const { bookId } = await req.json();
+
+    if (!bookId) {
+      return NextResponse.json({ error: 'Book ID is required' }, { status: 400 });
+    }
+
+    connection = await createConnection();
+
+    // Query to get the shelf ID
+    const [shelves] = await connection.query(
+      "SELECT PK_ID FROM book_shelves WHERE shelf_name = ? AND user_id = ?",
+      [decodedShelfName, userId]
+    );
+
+    if (shelves.length === 0) {
+      return NextResponse.json({ error: 'Shelf not found or does not belong to user' }, { status: 404 });
+    }
+
+    const shelfId = shelves[0].PK_ID;
+
+    // Query to remove the book from the shelf
+    await connection.query(
+      "DELETE FROM books_in_shelves WHERE shelf_id = ? AND book_id = ?",
+      [shelfId, bookId]
+    );
+
+    // Return a success response
+    return NextResponse.json({ status: 'success' });
+  } catch (error) {
+    console.error("Error removing book from shelf:", error);
+    return NextResponse.json({ error: 'An error occurred' }, { status: 500 });
+  } finally {
+    if (connection) await connection.end();
+  }
+}
