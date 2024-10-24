@@ -6,33 +6,48 @@ import Link from "next/link";
 function generateSlug(title) {
   return title
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric characters with hyphens
-    .replace(/(^-|-$)/g, ''); // Remove leading or trailing hyphens
+    .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric characters with hyphens
+    .replace(/(^-|-$)/g, ""); // Remove leading or trailing hyphens
 }
 
-export default function BookCard({ title, author, pageCount, publishDate, isbn, coverID, rating, id }) {
+export default function BookCard({
+  title,
+  author,
+  pageCount,
+  publishDate,
+  isbn,
+  coverID,
+  rating,
+  id,
+}) {
   const defaultCover = "/assets/img/default-cover.webp"; // Default cover image path
 
   const slug = generateSlug(title);
 
   return (
     <Link href={`/book/${id}/${slug}`}>
-      <div className="flex gap-4 sm:w-5/6 mx-auto">
+      <div className="mx-auto flex gap-4 sm:w-5/6">
         <img
           src={coverID || defaultCover} // Google Books cover URL or default cover
           alt={title}
-          className="w-1/5 rounded-md aspect-[2/3] object-cover"
+          className="aspect-[2/3] w-1/5 rounded-md object-cover"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = defaultCover; // Fallback to default cover
           }}
         />
 
-        <div className="flex flex-col w-4/5 border-b border-lightgray overflow-hidden">
-          <h2 className="text-lg font-bold mb-2 text-darkgray dark:text-white truncate">{title}</h2>
-          <p className="text-base mb-1 text-lightgray dark:text-textgray truncate">{author}</p>
-          <p className="text-sm mb-1 text-lightgray dark:text-textgray">{pageCount} pages</p>
-          <div className="text-sm mb-1 text-lightgray dark:text-textgray flex gap-1">
+        <div className="flex w-4/5 flex-col overflow-hidden border-b border-lightgray">
+          <h2 className="mb-2 truncate text-lg font-bold text-darkgray dark:text-white">
+            {title}
+          </h2>
+          <p className="mb-1 truncate text-base text-lightgray dark:text-textgray">
+            {author}
+          </p>
+          <p className="mb-1 text-sm text-lightgray dark:text-textgray">
+            {pageCount} pages
+          </p>
+          <div className="mb-1 flex gap-1 text-sm text-lightgray dark:text-textgray">
             {rating > 0 ? <StarRating rating={rating} /> : "No Rating"}
           </div>
         </div>

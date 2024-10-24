@@ -23,50 +23,49 @@
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
- /* Hide scrollbar for IE, Edge and Firefox */
+  /* Hide scrollbar for IE, Edge and Firefox */
   .no-scrollbar {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
-}
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('/assets/fonts/Satoshi-Regular.woff') format('woff');
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi-Regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('/assets/fonts/Satoshi-Bold.woff') format('woff');
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi-Bold.woff") format("woff");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('/assets/fonts/Satoshi-Italic.woff') format('woff');
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi-Italic.woff") format("woff");
   font-weight: 400;
   font-style: italic;
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('/assets/fonts/Satoshi-Light.woff') format('woff');
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi-Light.woff") format("woff");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Satoshi';
-  src: url('/assets/fonts/Satoshi-LightItalic.woff') format('woff');
+  font-family: "Satoshi";
+  src: url("/assets/fonts/Satoshi-LightItalic.woff") format("woff");
   font-weight: 300;
   font-style: italic;
 }
-  
 
 /* body {
   font-family: Arial, Helvetica, sans-serif;
@@ -78,17 +77,23 @@
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Satoshi', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Satoshi", sans-serif;
 }
 
-p, a {
-  font-family: 'Satoshi', sans-serif;
+p,
+a {
+  font-family: "Satoshi", sans-serif;
   color: var(--foreground);
 }
 
 button {
-  font-family: 'Satoshi', sans-serif;
+  font-family: "Satoshi", sans-serif;
 }
 
 @layer base {

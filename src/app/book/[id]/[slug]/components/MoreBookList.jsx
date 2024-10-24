@@ -1,10 +1,10 @@
-'use client';
-import React from 'react';
-import MoreBookCard from './MoreBookCard'; 
+"use client";
+import React from "react";
+import MoreBookCard from "./MoreBookCard";
 
 export default function MoreBookList({ books }) {
   return (
-    <ul className="flex gap-4 my-4">
+    <ul className="my-4 flex gap-4">
       {books.map((book, index) => (
         <li key={index} className="">
           <MoreBookCard

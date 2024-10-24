@@ -1,44 +1,48 @@
-'use client';
+"use client";
 
-import { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 import { useState, useEffect } from "react";
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Reccomended from "./components/Recommended";
 import TopNav from "../components/navs/Back";
-import { IoIosSettings } from "react-icons/io"
+import { IoIosSettings } from "react-icons/io";
 import { PiSignInFill } from "react-icons/pi";
-
 
 export default function Home() {
   const { user } = useContext(UserContext);
 
-
-
   return (
-    <div className="flex flex-col gap-4 w-11/12 mx-auto">
-      <div className="mt-8 flex justify-between items-center">
+    <div className="mx-auto flex w-11/12 flex-col gap-4">
+      <div className="mt-8 flex items-center justify-between">
         <h1 className="font-satoshi text-3xl font-bold">Book Buddy</h1>
-        {user !== 'Guest' && (
-          <Link href="/settings" className=" bg-offwhite dark:bg-darkgray p-1 rounded-full text-xl text-darkgray dark:text-offwhite">
+        {user !== "Guest" && (
+          <Link
+            href="/settings"
+            className="rounded-full bg-offwhite p-1 text-xl text-darkgray dark:bg-darkgray dark:text-offwhite"
+          >
             <IoIosSettings />
           </Link>
         )}
-        {user === 'Guest' && (
-          <Link href="/" className=" bg-offwhite dark:bg-darkgray p-1 rounded-full text-xl text-darkgray dark:text-offwhite">
+        {user === "Guest" && (
+          <Link
+            href="/"
+            className="rounded-full bg-offwhite p-1 text-xl text-darkgray dark:bg-darkgray dark:text-offwhite"
+          >
             <PiSignInFill />
           </Link>
         )}
       </div>
       <div className=" ">
-        <h2 className="font-satoshi font-light text-2xl">Welcome {user}</h2> {/* Dynamic Welcome Message */}
+        <h2 className="font-satoshi text-2xl font-light">Welcome {user}</h2>{" "}
+        {/* Dynamic Welcome Message */}
       </div>
       <div className=" ">
-        <h2 className="font-satoshi font-light text-2xl">Reading Now</h2>
+        <h2 className="font-satoshi text-2xl font-light">Reading Now</h2>
       </div>
       <div className=" ">
-        <h2 className="font-satoshi font-light text-2xl mb-4">Recommended</h2>
+        <h2 className="mb-4 font-satoshi text-2xl font-light">Recommended</h2>
         {/* <Reccomended /> */}
       </div>
       {/* <div className="flex justify-center mt-10">

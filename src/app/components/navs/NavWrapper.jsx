@@ -1,13 +1,13 @@
-"use client"; 
+"use client";
 
 import { usePathname } from "next/navigation";
-import Navigation from "./Navigation"; 
+import Navigation from "./Navigation";
 
 export default function NavWrapper() {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   // Define routes where the Navigation should be hidden
-  const hideNavigationOnRoutes = ["/sign-up" , "/"];
+  const hideNavigationOnRoutes = ["/sign-up", "/"];
 
   // Conditionally render the Navigation based on the current pathname
   if (hideNavigationOnRoutes.includes(pathname)) {

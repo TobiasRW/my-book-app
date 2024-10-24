@@ -20,7 +20,7 @@ export default async function ShelfBookDetailPage({ params }) {
 
   try {
     const response = await fetch(
-      `https://www.googleapis.com/books/v1/volumes/${bookId}`
+      `https://www.googleapis.com/books/v1/volumes/${bookId}`,
     );
 
     // Check if the response is successful
@@ -127,13 +127,13 @@ export default async function ShelfBookDetailPage({ params }) {
   return (
     <div className="min-h-screen pb-32">
       {error && (
-        <div className="max-w-md w-11/12 mx-auto bg-red-500 text-white text-sm text-center p-4 rounded mt-10">
+        <div className="mx-auto mt-10 w-11/12 max-w-md rounded bg-red-500 p-4 text-center text-sm text-white">
           {error}
         </div>
       )}
       <Back color={averageColor} />
       <section
-        className="flex flex-col items-center justify-center gap-2 pt-20 pb-10"
+        className="flex flex-col items-center justify-center gap-2 pb-10 pt-20"
         style={{
           background: `linear-gradient(to bottom, ${averageColor} 70%, rgba(${
             avgR + 30
@@ -142,20 +142,20 @@ export default async function ShelfBookDetailPage({ params }) {
       >
         <img
           src={book?.coverID}
-          className="w-2/6 rounded-md aspect-[2/3] object-cover drop-shadow-xl"
+          className="aspect-[2/3] w-2/6 rounded-md object-cover drop-shadow-xl"
           alt={`${book?.title} cover`}
         />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white">{book?.title}</h1>
-          <p className="text-base mb-1 text-offwhite/60">{book?.author}</p>
+          <p className="mb-1 text-base text-offwhite/60">{book?.author}</p>
         </div>
-        
-        <RemoveFromLibraryButton bookId={book.id} shelfName={shelfName}/>
+
+        <RemoveFromLibraryButton bookId={book.id} shelfName={shelfName} />
       </section>
-      <section className="rounded-t-[1.75rem] w-full -mt-5 bg-background">
-        <div className="w-10/12 mx-auto pt-10 flex flex-col gap-4">
-          <h2 className="font-bold text-lg truncate">About: {book?.title}</h2>
-          <div className="bg-offwhite drop-shadow-xl dark:drop-shadow-none dark:bg-darkgray rounded-2xl p-4">
+      <section className="-mt-5 w-full rounded-t-[1.75rem] bg-background">
+        <div className="mx-auto flex w-10/12 flex-col gap-4 pt-10">
+          <h2 className="truncate text-lg font-bold">About: {book?.title}</h2>
+          <div className="rounded-2xl bg-offwhite p-4 drop-shadow-xl dark:bg-darkgray dark:drop-shadow-none">
             <ReadMoreLess text={formattedDescription} />
             <BookFacts book={book} />
           </div>
@@ -163,11 +163,11 @@ export default async function ShelfBookDetailPage({ params }) {
       </section>
       <Link
         href={`https://www.amazon.com/s?k=${encodeURIComponent(
-          book.title + " " + primaryAuthor
+          book.title + " " + primaryAuthor,
         )}`}
         target="_blank"
         rel="noreferrer"
-        className="flex justify-center items-center mt-6"
+        className="mt-6 flex items-center justify-center"
       >
         <Button content="Buy on Amazon" btnType="secondary" />
       </Link>

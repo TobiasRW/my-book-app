@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import ReccomendedBook from './RecommendedBook';
+import React, { useEffect, useState } from "react";
+import ReccomendedBook from "./RecommendedBook";
 
 export default function Reccomended() {
   const [reccomendedBooks, setReccomendedBooks] = useState([]);
@@ -9,8 +9,8 @@ export default function Reccomended() {
   const recBookIDs = [
     "MyIukohIVRwC", // Wool Hugh Howey
     "OHclhBVv-X4C", // The way of kings Brandon Sanderson
-    "nPF9n0SwstMC",  // Red Rising Pierce Brown
-    "6PqGDwAAQBAJ"  // The Rage of Dragons Evan Winter
+    "nPF9n0SwstMC", // Red Rising Pierce Brown
+    "6PqGDwAAQBAJ", // The Rage of Dragons Evan Winter
   ];
 
   useEffect(() => {
@@ -18,10 +18,12 @@ export default function Reccomended() {
       try {
         const books = await Promise.all(
           recBookIDs.map(async (id) => {
-            const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`);
+            const response = await fetch(
+              `https://www.googleapis.com/books/v1/volumes/${id}`,
+            );
             const data = await response.json();
             return data;
-          })
+          }),
         );
         setReccomendedBooks(books);
       } catch (error) {
@@ -33,7 +35,7 @@ export default function Reccomended() {
   }, []);
 
   return (
-    <div className='flex gap-5 overflow-x-scroll no-scrollbar'>
+    <div className="no-scrollbar flex gap-5 overflow-x-scroll">
       {reccomendedBooks.map((book) => (
         <ReccomendedBook
           key={book.id}

@@ -3,43 +3,45 @@ import { IoPencilOutline } from "react-icons/io5";
 import { LiaGlobeEuropeSolid } from "react-icons/lia";
 
 export default function BookFacts({ book }) {
-    return (
-        <div className=" border-t border-lightgray flex flex-col gap-4 py-4">
-            <div className="flex justify-between w-10/12 mx-auto">
-                <div className="flex gap-4 justify-center items-center text-darkgray dark:text-offwhite">
-                    <FaThumbsUp />
-                    <p>Rating</p>
-                </div>
-                <p className='flex justify-center items-center gap-1 text-darkgray dark:text-offwhite '><FaStar  /> {book.rating}</p>
-            </div>
-            <div className="flex justify-between w-10/12 mx-auto text-darkgray dark:text-offwhite">
-                <div className="flex gap-4 justify-center items-center">
-                    <FaBookOpen  />
-                    <p>Pages</p>
-                </div>
-                <p>{book.pageCount}</p>
-            </div>
-            <div className="flex justify-between w-10/12 mx-auto text-darkgray dark:text-offwhite">
-                <div className="flex gap-4 justify-center items-center">
-                    <IoPencilOutline  />
-                    <p>Released</p>
-                </div>
-                <p>{book.publishDate}</p>
-            </div>
-            <div className="flex justify-between w-10/12 mx-auto gap-5 text-darkgray dark:text-offwhite">
-                <div className="flex gap-4 justify-center items-center">
-                    <LiaGlobeEuropeSolid  />
-                    <p>Publisher</p>
-                </div>
-                <p className="truncate">{book.publisher}</p>
-            </div>
-            <div className="flex justify-between w-10/12 mx-auto text-darkgray dark:text-offwhite">
-                <div className="flex gap-4 justify-center items-center">
-                    <FaBarcode />
-                    <p>ISBN</p>
-                </div>
-                <p>{book.isbn}</p>
-            </div>
+  return (
+    <div className="flex flex-col gap-4 border-t border-lightgray py-4">
+      <div className="mx-auto flex w-10/12 justify-between">
+        <div className="flex items-center justify-center gap-4 text-darkgray dark:text-offwhite">
+          <FaThumbsUp />
+          <p>Rating</p>
         </div>
-    )
+        <p className="flex items-center justify-center gap-1 text-darkgray dark:text-offwhite">
+          <FaStar /> {book.rating}
+        </p>
+      </div>
+      <div className="mx-auto flex w-10/12 justify-between text-darkgray dark:text-offwhite">
+        <div className="flex items-center justify-center gap-4">
+          <FaBookOpen />
+          <p>Pages</p>
+        </div>
+        <p>{book.pageCount}</p>
+      </div>
+      <div className="mx-auto flex w-10/12 justify-between text-darkgray dark:text-offwhite">
+        <div className="flex items-center justify-center gap-4">
+          <IoPencilOutline />
+          <p>Released</p>
+        </div>
+        <p>{book.publishDate}</p>
+      </div>
+      <div className="mx-auto flex w-10/12 justify-between gap-5 text-darkgray dark:text-offwhite">
+        <div className="flex items-center justify-center gap-4">
+          <LiaGlobeEuropeSolid />
+          <p>Publisher</p>
+        </div>
+        <p className="truncate">{book.publisher}</p>
+      </div>
+      <div className="mx-auto flex w-10/12 justify-between text-darkgray dark:text-offwhite">
+        <div className="flex items-center justify-center gap-4">
+          <FaBarcode />
+          <p>ISBN</p>
+        </div>
+        <p>{book.isbn}</p>
+      </div>
+    </div>
+  );
 }

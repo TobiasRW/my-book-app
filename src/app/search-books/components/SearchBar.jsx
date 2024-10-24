@@ -49,10 +49,10 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
 
   return (
     <div>
-      <div className="max-w-md mx-auto flex gap-3 items-center pt-6">
+      <div className="mx-auto flex max-w-md items-center gap-3 pt-6">
         <Link
           href="/"
-          className="bg-offwhite dark:bg-darkgray rounded-full flex justify-center items-center p-1"
+          className="flex items-center justify-center rounded-full bg-offwhite p-1 dark:bg-darkgray"
         >
           <svg
             className="h-6 w-6 text-darkgray dark:text-textgray"
@@ -72,11 +72,11 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
         </Link>
         <form
           onSubmit={handleSubmit}
-          className="relative flex items-center w-full h-10 rounded-xl focus-within:shadow-lg bg-offwhite dark:bg-darkgray overflow-hidden"
+          className="relative flex h-10 w-full items-center overflow-hidden rounded-xl bg-offwhite focus-within:shadow-lg dark:bg-darkgray"
         >
           <button
             type="submit"
-            className="grid place-items-center h-full w-12 text-darkgray dark:text-gray-300"
+            className="grid h-full w-12 place-items-center text-darkgray dark:text-gray-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +94,7 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
             </svg>
           </button>
           <input
-            className="h-full w-full outline-none text-sm text-gray-400 bg-offwhite dark:bg-darkgray"
+            className="h-full w-full bg-offwhite text-sm text-gray-400 outline-none dark:bg-darkgray"
             type="text"
             placeholder="Search by title, author or ISBN..."
             value={query}
@@ -102,7 +102,7 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
           />
           <button
             type="button"
-            className="grid place-items-center h-full w-12 text-darkgray dark:text-gray-300"
+            className="grid h-full w-12 place-items-center text-darkgray dark:text-gray-300"
             onClick={clearSearch}
           >
             <svg
@@ -124,7 +124,7 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
         </form>
       </div>
       {error && (
-        <div className="max-w-md w-11/12 mx-auto bg-red-500 text-white text-sm text-center p-4 rounded mt-10">
+        <div className="mx-auto mt-10 w-11/12 max-w-md rounded bg-red-500 p-4 text-center text-sm text-white">
           {error}
         </div>
       )}
