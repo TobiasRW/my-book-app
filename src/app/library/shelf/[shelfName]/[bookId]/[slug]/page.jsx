@@ -2,10 +2,11 @@ import Back from "@/app/components/navs/Back";
 import Button from "@/app/components/navs/Button";
 import RemoveFromLibraryButton from "./components/RemoveFromLibraryButton";
 import ReadMoreLess from "@/app/book/[id]/[slug]/components/ReadMoreLess";
-import BookFacts from "@/app/book/[id]/[slug]/components/BookFacts";
+import ShelfBookFacts from "./components/ShelfBookFacts";
 import Link from "next/link";
 import React from "react";
 import sharp from "sharp";
+import UpdateBookStatus from "./components/UpdateBookStatus";
 
 export default async function ShelfBookDetailPage({ params }) {
   const { shelfName, bookId, slug } = params;
@@ -151,13 +152,14 @@ export default async function ShelfBookDetailPage({ params }) {
         </div>
 
         <RemoveFromLibraryButton bookId={book.id} shelfName={shelfName} />
+        <UpdateBookStatus bookId={book.id}/>
       </section>
       <section className="-mt-5 w-full rounded-t-[1.75rem] bg-background">
         <div className="mx-auto flex w-10/12 flex-col gap-4 pt-10">
           <h2 className="truncate text-lg font-bold">About: {book?.title}</h2>
           <div className="rounded-2xl bg-offwhite p-4 drop-shadow-xl dark:bg-darkgray dark:drop-shadow-none">
             <ReadMoreLess text={formattedDescription} />
-            <BookFacts book={book} />
+            <ShelfBookFacts book={book} />
           </div>
         </div>
       </section>
