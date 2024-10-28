@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { FaStar, FaStarHalf } from "react-icons/fa";
 
 export default function ShelfBookCard({ book, shelfName }) {
   // Slugify function
@@ -11,6 +12,27 @@ export default function ShelfBookCard({ book, shelfName }) {
   };
 
   const slug = generateSlug(book.title);
+
+  // Helper function to render star icons based on rating
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+
+    // Add full stars
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <FaStar key={i} className="w-4 text-lightgray dark:text-offwhite" />,
+      );
+    }
+
+    // Add half star
+    if (hasHalfStar) {
+      stars.push(<FaStarHalf key="half" className="w-4" />);
+    }
+
+    return stars;
+  };
 
   return (
     <Link
@@ -29,6 +51,12 @@ export default function ShelfBookCard({ book, shelfName }) {
                 {book.title}
               </p>
               <p className="font-semibold text-lightgray">{book.author}</p>
+              {/* Display rating */}
+              {book.rating !== null && book.rating !== undefined && (
+                <div className="mt-1 flex items-center gap-1">
+                  {renderStars(book.rating)}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -44,14 +44,18 @@ export async function GET(req, { params }) {
     // Get the shelf ID from the query result
     const shelfId = shelves[0].PK_ID;
 
-    // Query to get the books in the shelf
+    // Query to get the books in the shelf along with their ratings and status
     const [books] = await connection.query(
-      "SELECT book_id FROM books_in_shelves WHERE shelf_id = ?",
-      [shelfId],
+    "CALL GetShelfBookRatingAndStatus(?, ?)",
+      [userId, shelfId]
     );
 
+      // The result of CALL is an array with the first element being the actual result
+      const booksData = books[0];
+
+
     // Return the list of books and the shelf name as a JSON response
-    return NextResponse.json({ books, shelfName: decodedShelfName });
+    return NextResponse.json({ books: booksData, shelfName: decodedShelfName });
   } catch (error) {
     // Log the error and return an error response
     console.error("Error getting books in shelf:", error);
