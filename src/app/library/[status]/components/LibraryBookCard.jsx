@@ -1,10 +1,14 @@
 "use client";
 
 import React from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { RiDeleteBinLine } from "react-icons/ri";
+import { TiDelete } from "react-icons/ti";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function LibraryBookCard({ book, handleDeleteFromLibrary }) {
+
+export default function LibraryBookCard({ book, isEditing, openDeleteModal }) {
+
   return (
     <Link href={`/book/${book.id}/${encodeURIComponent(book.title)}`}>
       <div className="flex">
@@ -22,12 +26,24 @@ export default function LibraryBookCard({ book, handleDeleteFromLibrary }) {
                 </p>
                 <p className="font-semibold text-lightgray">{book.author}</p>
               </div>
-              <div className="">
-                <RiDeleteBinLine
-                  className="cursor-pointer text-xl text-red-500 mr-4"
-                  onClick={() => handleDeleteFromLibrary(book.id)}
-                />
-              </div>
+              {/* Show delete button only when isEditing is true */}
+              <AnimatePresence>
+
+              {isEditing && (
+                <motion.div
+               initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                >
+                  <TiDelete className="text-2xl text-red-500"
+                    onClick={(e) => {
+                      e.preventDefault(); // Prevent navigation on click
+                      openDeleteModal(book.id); // Trigger modal to confirm deletion
+                    }}
+                    />
+                </motion.div>
+              )}
+              </AnimatePresence>
             </div>
           </div>
         </div>

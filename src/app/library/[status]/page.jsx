@@ -3,13 +3,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import LibraryBookCard from "./components/LibraryBookCard";
+import LibraryBookModal from "./components/LibraryBookModal";
 import Back from "@/app/components/navs/Back";
+import { RiEdit2Fill } from "react-icons/ri";
+import { Library } from "lucide-react";
 
 export default function LibraryCategoryPage() {
   const { status } = useParams(); // Get the status from the URL
   const [books, setBooks] = useState([]);
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState(null);
   const [categoryName, setCategoryName] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -25,9 +31,9 @@ export default function LibraryCategoryPage() {
           case "all":
             setCategoryName("Library");
             break;
-          case "currently reading":
+          case "currently-reading":
             setCategoryName("Currently Reading");
-            queryParam = "?status=currently reading";
+            queryParam = "?status=currently-reading";
             break;
           case "to read":
             setCategoryName("To Read");
@@ -66,7 +72,7 @@ export default function LibraryCategoryPage() {
           const booksData = await Promise.all(
             bookIds.map(async (id) => {
               const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes/${id}`,
+                `https://www.googleapis.com/books/v1/volumes/${id}`
               );
               const data = await response.json();
               return {
@@ -75,7 +81,7 @@ export default function LibraryCategoryPage() {
                 author: data.volumeInfo.authors?.join(", ") || "Unknown Author",
                 coverID: data.volumeInfo.imageLinks?.thumbnail,
               };
-            }),
+            })
           );
           setBooks(booksData); // Set books
         }
@@ -89,12 +95,14 @@ export default function LibraryCategoryPage() {
   }, [status]);
 
   // Function to delete a book from the library
-  const handleDeleteFromLibrary = async (bookId) => {
+  const handleDeleteFromLibrary = async () => {
+    if (!bookToDelete) return; // Ensure there's a book to delete
+
     try {
       const res = await fetch("/api/user_books", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bookId }),
+        body: JSON.stringify({ bookId: bookToDelete }),
       });
 
       if (res.status === 401) {
@@ -108,7 +116,8 @@ export default function LibraryCategoryPage() {
         setError(data.error);
       } else {
         // Remove the deleted book from state
-        setBooks(books.filter((book) => book.id !== bookId));
+        setBooks(books.filter((book) => book.id !== bookToDelete));
+        closeModal(); // Close the modal after successful deletion
       }
     } catch (err) {
       console.error("Error deleting book from library:", err);
@@ -116,12 +125,35 @@ export default function LibraryCategoryPage() {
     }
   };
 
+  const openDeleteModal = (bookId) => {
+    setBookToDelete(bookId); // Set the book to delete
+    setShowModal(true); // Open the modal
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setBookToDelete(null); // Clear the book to delete when modal closes
+  };
+
   return (
     <>
       <Back />
+
       <div className="mx-auto min-h-screen w-11/12 pb-32">
         <h1 className="mt-8 text-center text-3xl font-bold">{categoryName}</h1>
         {error && <p className="text-red-500">{error}</p>}
+        <div className="mb-4 mt-10">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">Books in {categoryName}</h2>
+            <div className="flex items-center gap-2">
+              <RiEdit2Fill
+                className="text-xl text-darkgray dark:text-offwhite"
+                onClick={() => setIsEditing(!isEditing)}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="my-4 flex flex-col gap-6">
           {books.length === 0 ? (
             <p className="text-center">No books in this category.</p>
@@ -130,12 +162,19 @@ export default function LibraryCategoryPage() {
               <LibraryBookCard
                 key={book.id}
                 book={book}
-                handleDeleteFromLibrary={handleDeleteFromLibrary}
+                isEditing={isEditing}
+                openDeleteModal={openDeleteModal} 
               />
             ))
           )}
         </div>
       </div>
+
+      <LibraryBookModal
+        isOpen={showModal}
+        onConfirm={handleDeleteFromLibrary} 
+        onCancel={closeModal}
+      />
     </>
   );
 }

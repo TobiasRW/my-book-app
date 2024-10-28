@@ -7,11 +7,11 @@ import { PiArrowFatRightFill } from "react-icons/pi";
 import { IoTrashBin } from "react-icons/io5";
 import { IoLibrary } from "react-icons/io5";
 
-export default function LibraryCategoryList() {
+export default function LibraryCategoryList({}) {
   // Array of categories with name, status, and icon
   const categories = [
     { name: "Library", status: "all", icon: <IoLibrary className="h-4 w-4" /> },
-    { name: "Currently Reading", status: "currently reading", icon: <FaBookOpen className="h-4 w-4" /> },
+    { name: "Currently Reading", status: "currently-reading", icon: <FaBookOpen className="h-4 w-4" /> },
     { name: "To Read", status: "to read", icon: <PiArrowFatRightFill className="h-4 w-4" /> },
     { name: "Finished", status: "finished", icon: <FaCheck className="h-4 w-4" /> },
     { name: "Did Not Finish", status: "dnf", icon: <IoTrashBin className="h-4 w-4" /> },
