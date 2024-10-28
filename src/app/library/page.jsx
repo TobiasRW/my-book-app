@@ -35,7 +35,7 @@ export default function LibraryPage() {
           setError(data.error);
         } else {
           setShelves(data.shelves); // Set shelves
-          console.log("Shelves:", data.shelves);
+          // console.log("Shelves:", data.shelves);
         }
       } catch (err) {
         // Log error and set error message

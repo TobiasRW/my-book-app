@@ -4,8 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { FaBookOpen, FaCheck, FaHeart } from "react-icons/fa";
 import { PiArrowFatRightFill } from "react-icons/pi";
-import { IoTrashBin } from "react-icons/io5";
-import { IoLibrary } from "react-icons/io5";
+import { IoTrashBin, IoLibrary } from "react-icons/io5";
 
 export default function LibraryCategoryList({}) {
   // Array of categories with name, status, and icon
@@ -21,10 +20,12 @@ export default function LibraryCategoryList({}) {
   return (
     <div className="rounded-xl bg-offwhite drop-shadow-xl dark:bg-darkgray dark:drop-shadow-none">
       {categories.map((category) => (
-        <div className="flex items-center justify-between border-b border-lightgray py-3 last:border-none ">
+        <div
+          key={category.status} // Moved key here
+          className="flex items-center justify-between border-b border-lightgray py-3 last:border-none"
+        >
           <Link
-            key={category.status}
-            href={`/library/${encodeURIComponent(category.status)}`} // Encode the status parameter
+            href={`/library/${encodeURIComponent(category.status)}`}
             className="w-11/12 mx-auto"
           >
             <div className="flex justify-between items-center">
