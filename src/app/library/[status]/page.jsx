@@ -6,7 +6,6 @@ import LibraryBookCard from "./components/LibraryBookCard";
 import LibraryBookModal from "./components/LibraryBookModal";
 import Back from "@/app/components/navs/Back";
 import { RiEdit2Fill } from "react-icons/ri";
-import { Library } from "lucide-react";
 
 export default function LibraryCategoryPage() {
   const { status } = useParams(); // Get the status from the URL
@@ -37,7 +36,7 @@ export default function LibraryCategoryPage() {
             break;
           case "to read":
             setCategoryName("To Read");
-            queryParam = "?status=to read";
+            queryParam = "?status=to-read";
             break;
           case "finished":
             setCategoryName("Finished");
@@ -65,14 +64,11 @@ export default function LibraryCategoryPage() {
         if (data.error) {
           setError(data.error);
         } else {
-          // data.books is an array of book IDs
-          const bookIds = data.books.map((book) => book.book_id);
-
-          // Fetch book details from external API
+          // data.books is an array of { book_id, status, rating }
           const booksData = await Promise.all(
-            bookIds.map(async (id) => {
+            data.books.map(async (book) => {
               const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes/${id}`
+                `https://www.googleapis.com/books/v1/volumes/${book.book_id}`
               );
               const data = await response.json();
               return {
@@ -80,10 +76,12 @@ export default function LibraryCategoryPage() {
                 title: data.volumeInfo.title || "No Title",
                 author: data.volumeInfo.authors?.join(", ") || "Unknown Author",
                 coverID: data.volumeInfo.imageLinks?.thumbnail,
+                rating: book.rating, // Include rating
+                status: book.status, // Include status if needed
               };
             })
           );
-          setBooks(booksData); // Set books
+          setBooks(booksData); // Set books with rating
         }
       } catch (err) {
         console.error("Error fetching books:", err);

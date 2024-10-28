@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { MdOutlineError } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { TiDelete } from "react-icons/ti";
 
 // Variants for the error message
 const errorVariants = {
@@ -82,7 +83,15 @@ export default function RemoveFromLibraryButton({ bookId, shelfName }) {
 
   return (
     <>
-      <Button btnType="primary" content="Remove from shelf" click={openModal} />
+      {/* <Button btnType="primary" content="Remove from shelf" click={openModal} /> */}
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-200/30">
+          <TiDelete className="text-2xl text-slate-200" onClick={openModal} />
+        </div>
+        <div className="mt-2 text-center text-sm">
+          Delete
+        </div>
+      </div>
       <AnimatePresence>
         {showModal && (
           <motion.div

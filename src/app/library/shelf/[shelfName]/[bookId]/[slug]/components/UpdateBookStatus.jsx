@@ -11,18 +11,27 @@ import { FaBookOpen, FaCheck, FaHeart } from "react-icons/fa6";
 import { PiArrowFatRightFill } from "react-icons/pi";
 import { IoTrashBin } from "react-icons/io5";
 import { BsThreeDots } from "react-icons/bs";
+import { FaStar, FaStarHalf } from "react-icons/fa";
 
 export default function UpdateBookStatus({ bookId }) {
   const [status, setStatus] = useState("");
   const [rating, setRating] = useState("");
   const [message, setMessage] = useState("");
 
+  // Function to format the rating value
+  const formatRating = (value) => {
+    if (value && value.endsWith(".0")) {
+      return value.slice(0, -2); // Remove the trailing ".0"
+    }
+    return value;
+  };
+
   // Function to get the appropriate icon based on the status value
   const getStatusIcon = (value) => {
     switch (value) {
-      case "currently reading":
+      case "currently-reading":
         return <FaBookOpen className="h-4 w-4" />;
-      case "to read":
+      case "to-read":
         return <PiArrowFatRightFill className="h-4 w-4" />;
       case "finished":
         return <FaCheck className="h-4 w-4" />;
@@ -38,9 +47,9 @@ export default function UpdateBookStatus({ bookId }) {
   // Function to display the selected status text
   const displaySelectedText = (value) => {
     switch (value) {
-      case "currently reading":
+      case "currently-reading":
         return "Reading";
-      case "to read":
+      case "to-read":
         return "To Read";
       case "finished":
         return "Finished";
@@ -63,7 +72,9 @@ export default function UpdateBookStatus({ bookId }) {
           setMessage(data.error);
         } else {
           setStatus(data.status || ""); // Set status
-          setRating(data.rating !== null ? data.rating : ""); // Set rating if not null
+
+          // Use formatRating when setting the rating
+          setRating(data.rating !== null ? formatRating(data.rating) : "");
         }
       } catch (err) {
         console.error("Error fetching user book data:", err);
@@ -74,7 +85,7 @@ export default function UpdateBookStatus({ bookId }) {
     fetchUserBookData();
   }, [bookId]);
 
-   // Function to handle saving the status and rating
+  // Function to handle saving the status and rating
   const handleSave = async () => {
     try {
       // Validate the status and rating inputs before proceeding
@@ -84,7 +95,8 @@ export default function UpdateBookStatus({ bookId }) {
       }
 
       // Check if rating is provided and is between 1 and 5
-      if (rating && (rating < 1 || rating > 5)) {
+      const ratingValue = rating ? parseFloat(rating) : null;
+      if (rating && (ratingValue < 0 || ratingValue > 5)) {
         setMessage("Rating must be between 1 and 5.");
         return;
       }
@@ -98,7 +110,7 @@ export default function UpdateBookStatus({ bookId }) {
         body: JSON.stringify({
           bookId: bookId,
           status,
-          rating: rating ? parseInt(rating) : null,
+          rating: ratingValue,
         }),
       });
 
@@ -106,8 +118,8 @@ export default function UpdateBookStatus({ bookId }) {
       if (data.error) {
         setMessage(data.error);
       } else {
-        setMessage("Status and rating saved successfully.");
-        setTimeout(() => setMessage(""), 3000); // Clear message after 3 seconds
+        // Clear any existing messages
+        setMessage("");
       }
     } catch (err) {
       console.error("Error saving status and rating:", err);
@@ -115,29 +127,31 @@ export default function UpdateBookStatus({ bookId }) {
     }
   };
 
+  // useEffect to call handleSave when status or rating changes
+  useEffect(() => {
+    if (status) {
+      handleSave();
+    }
+  }, [status, rating]);
+
   return (
-    <div className="my-4">
-      <div className="flex flex-col justify-center items-center">
+    <div className="my-4 flex gap-10">
+      <div className="flex flex-col items-center justify-center">
         <Select value={status} onValueChange={setStatus} className="">
           <SelectTrigger className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-200/30">
             {getStatusIcon(status)}
           </SelectTrigger>
 
-          <SelectContent
-               side="top"
-               align="center"
-               className="bg-darkgray w-48"
-               
-          >
-            <SelectItem value="currently reading">
+          <SelectContent side="top" align="center" className="w-48 bg-darkgray">
+            <SelectItem value="currently-reading">
               <div className="flex items-center gap-4">
-                {getStatusIcon("currently reading")}
+                {getStatusIcon("currently-reading")}
                 <span className="ml-2">Reading</span>
               </div>
             </SelectItem>
-            <SelectItem value="to read">
+            <SelectItem value="to-read">
               <div className="flex items-center gap-4">
-                {getStatusIcon("to read")}
+                {getStatusIcon("to-read")}
                 <span className="ml-2">To Read</span>
               </div>
             </SelectItem>
@@ -168,30 +182,122 @@ export default function UpdateBookStatus({ bookId }) {
         </div>
       </div>
 
-      <div className="my-4">
-        <label htmlFor="rating" className="block text-sm font-medium">
-          Rating (1-5):
-        </label>
-        <input
-          id="rating"
-          type="number"
-          min="1"
-          max="5"
-          value={rating}
-          onChange={(e) => setRating(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-darkgray dark:text-offwhite"
-        />
+      <div className="">
+        <Select value={rating} onValueChange={setRating} className="ml-4">
+          <SelectTrigger className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-200/30">
+            <SelectValue>{formatRating(rating)}</SelectValue>
+            <FaStar />
+          </SelectTrigger>
+
+          <SelectContent side="bottom" align="center" className="w-48 bg-darkgray">
+            <SelectItem value="0.5">
+              <div className="flex gap-4">
+                <span className="w-6">0.5</span>
+                <div className="flex items-center gap-1">
+                  <FaStarHalf />
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="1">
+              <div className="flex gap-4">
+                <span className="w-6">1</span>
+                <div className="flex items-center gap-1">
+                  <FaStar />
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="1.5">
+              <div className="flex gap-4">
+                <span className="w-6">1.5</span>
+                <div className="flex items-center gap-1">
+                  <FaStar />
+                  <FaStarHalf />
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="2">
+              <div className="flex gap-4">
+                <span className="w-6">2</span>
+                <div className="flex items-center gap-1">
+                  <FaStar />
+                  <FaStar />
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="2.5">
+              <div className="flex gap-4">
+                <span className="w-6">2.5</span>
+                <div className="flex items-center gap-1">
+                  <FaStar />
+                  <FaStar />
+                  <FaStarHalf />
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="3">
+              <div className="flex gap-4">
+                <span className="w-6">3</span>
+                <div className="flex items-center gap-1">
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="3.5">
+              <div className="flex gap-4">
+                <span className="w-6">3.5</span>
+                <div className="flex items-center gap-1">
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                  <FaStarHalf />
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="4">
+              <div className="flex gap-4">
+                <span className="w-6">4</span>
+                <div className="flex items-center gap-1">
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                </div>
+              </div>
+            </SelectItem>
+            <SelectItem value="4.5">
+            <div className="flex gap-4">
+              <span className="w-6">4.5</span>
+              <div className="flex items-center gap-1">
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStarHalf />
+              </div>
+            </div>
+            </SelectItem>
+            <SelectItem value="5">
+              <div className="flex gap-4">
+                <span className="w-6">5</span>
+                <div className="flex items-center gap-1">
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                </div>
+              </div>
+            </SelectItem>
+          </SelectContent>
+        </Select>
+
+        <div className="mt-2 text-center text-sm">Rating</div>
       </div>
 
-      <button
-        onClick={handleSave}
-        className="mt-4 rounded bg-blue-500 px-4 py-2 text-white"
-      >
-        Save
-      </button>
-
       {message && (
-        <div className="mt-2 rounded bg-green-100 p-2 text-green-700 dark:bg-green-900 dark:text-green-200">
+        <div className="mt-2 rounded bg-red-100 p-2 text-red-700 dark:bg-red-900 dark:text-red-200">
           {message}
         </div>
       )}

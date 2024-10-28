@@ -151,8 +151,10 @@ export default async function ShelfBookDetailPage({ params }) {
           <p className="mb-1 text-base text-offwhite/60">{book?.author}</p>
         </div>
 
-        <RemoveFromLibraryButton bookId={book.id} shelfName={shelfName} />
+        <div className="flex gap-10">
         <UpdateBookStatus bookId={book.id}/>
+        <RemoveFromLibraryButton bookId={book.id} shelfName={shelfName} />
+        </div>
       </section>
       <section className="-mt-5 w-full rounded-t-[1.75rem] bg-background">
         <div className="mx-auto flex w-10/12 flex-col gap-4 pt-10">

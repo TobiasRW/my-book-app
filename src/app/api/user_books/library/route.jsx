@@ -32,7 +32,7 @@ export async function GET(req) {
     connection = await createConnection();
 
     // Base SQL query to fetch books for a user
-    let query = "SELECT book_id FROM user_books WHERE user_id = ?";
+    let query = "SELECT book_id, status, rating FROM user_books WHERE user_id = ?";
     let params = [userId];
 
     // If a status filter is provided and it's not "all", add it to the query
