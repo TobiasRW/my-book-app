@@ -68,7 +68,7 @@ export default function LibraryCategoryPage() {
           const booksData = await Promise.all(
             data.books.map(async (book) => {
               const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes/${book.book_id}`
+                `https://www.googleapis.com/books/v1/volumes/${book.book_id}`,
               );
               const data = await response.json();
               return {
@@ -79,7 +79,7 @@ export default function LibraryCategoryPage() {
                 rating: book.rating, // Include rating
                 status: book.status, // Include status if needed
               };
-            })
+            }),
           );
           setBooks(booksData); // Set books with rating
         }
@@ -137,7 +137,7 @@ export default function LibraryCategoryPage() {
     <>
       <Back />
 
-      <div className="mx-auto min-h-screen w-11/12 pb-32">
+      <div className="mx-auto min-h-[100svh] w-11/12">
         <h1 className="mt-8 text-center text-3xl font-bold">{categoryName}</h1>
         {error && <p className="text-red-500">{error}</p>}
         <div className="mb-4 mt-10">
@@ -156,14 +156,19 @@ export default function LibraryCategoryPage() {
           {books.length === 0 ? (
             <p className="text-center">No books in this category.</p>
           ) : (
-            books.map((book) => (
-              <LibraryBookCard
+            books.map((book, index) => (
+              <div
                 key={book.id}
-                book={book}
-                isEditing={isEditing}
-                openDeleteModal={openDeleteModal} 
-                status={status}
-              />
+                className={index === books.length - 1 ? "mb-20" : ""}
+              >
+                <LibraryBookCard
+                  key={book.id}
+                  book={book}
+                  isEditing={isEditing}
+                  openDeleteModal={openDeleteModal}
+                  status={status}
+                />
+              </div>
             ))
           )}
         </div>
@@ -171,7 +176,7 @@ export default function LibraryCategoryPage() {
 
       <LibraryBookModal
         isOpen={showModal}
-        onConfirm={handleDeleteFromLibrary} 
+        onConfirm={handleDeleteFromLibrary}
         onCancel={closeModal}
       />
     </>

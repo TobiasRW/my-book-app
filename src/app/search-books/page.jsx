@@ -104,7 +104,7 @@ export default async function SearchBooksPage({ searchParams }) {
   }
 
   return (
-    <div className="mx-auto min-h-screen w-11/12">
+    <div className="mx-auto min-h-[100svh] w-11/12">
       <SearchBar initialQuery={query} initialAuthor={author} />
       {error && (
         <div className="mx-auto mt-10 w-11/12 max-w-md rounded bg-red-500 p-4 text-center text-sm text-white">

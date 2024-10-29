@@ -28,18 +28,21 @@ export default function ShelfPage() {
             data.books.map(async (book) => {
               // Fetch book details from Google Books API
               const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes/${book.book_id}`
+                `https://www.googleapis.com/books/v1/volumes/${book.book_id}`,
               );
               const bookData = await response.json();
               return {
                 id: bookData.id,
                 title: bookData.volumeInfo.title || "No Title",
-                author: bookData.volumeInfo.authors?.join(", ") || "Unknown Author",
-                coverID: bookData.volumeInfo.imageLinks?.thumbnail || "/placeholder.png",
+                author:
+                  bookData.volumeInfo.authors?.join(", ") || "Unknown Author",
+                coverID:
+                  bookData.volumeInfo.imageLinks?.thumbnail ||
+                  "/placeholder.png",
                 rating: book.rating, // Include rating
                 status: book.status, // Include status if needed
               };
-            })
+            }),
           );
           setRetrievedShelfName(data.shelfName); // Set shelf name
           setBooks(booksData); // Set books with rating
@@ -55,7 +58,7 @@ export default function ShelfPage() {
   }, [shelfName]); // Dependency array with shelfName
 
   return (
-    <div className="mx-auto min-h-screen w-11/12">
+    <div className="mx-auto min-h-[100svh] w-11/12">
       <h1 className="mt-8 text-3xl font-bold">
         {retrievedShelfName || "Shelf"}
       </h1>
@@ -69,8 +72,13 @@ export default function ShelfPage() {
         </div>
 
         <div className="my-4 flex flex-col gap-6">
-          {books.map((book) => (
-            <ShelfBookCard key={book.id} book={book} shelfName={shelfName} />
+          {books.map((book, index) => (
+            <div
+              key={book.id}
+              className={index === books.length - 1 ? "mb-20" : ""}
+            >
+              <ShelfBookCard key={book.id} book={book} shelfName={shelfName} />
+            </div>
           ))}
         </div>
       </div>

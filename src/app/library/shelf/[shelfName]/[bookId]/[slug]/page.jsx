@@ -126,7 +126,7 @@ export default async function ShelfBookDetailPage({ params }) {
   const primaryAuthor = book?.author.split(",")[0].trim();
 
   return (
-    <div className="min-h-screen pb-32">
+    <div className="min-h-[100svh] pb-32">
       {error && (
         <div className="mx-auto mt-10 w-11/12 max-w-md rounded bg-red-500 p-4 text-center text-sm text-white">
           {error}
