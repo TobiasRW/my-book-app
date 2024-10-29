@@ -162,6 +162,7 @@ export default function LibraryCategoryPage() {
                 book={book}
                 isEditing={isEditing}
                 openDeleteModal={openDeleteModal} 
+                status={status}
               />
             ))
           )}

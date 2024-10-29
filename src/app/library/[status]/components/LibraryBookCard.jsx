@@ -7,7 +7,20 @@ import { TiDelete } from "react-icons/ti";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaStarHalf } from "react-icons/fa"; // Import additional icons
 
-export default function LibraryBookCard({ book, isEditing, openDeleteModal }) {
+
+// Slug
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/[\s\W-]+/g, '-') // Replace spaces and non-word characters with hyphens
+    .replace(/^-+|-+$/g, '');   // Remove leading and trailing hyphens
+}
+
+export default function LibraryBookCard({ book, isEditing, openDeleteModal, status }) {
+
+  const slug = slugify(book.title); // Generate slug from book title
   
   // Helper function to render star icons based on rating
   const renderStars = (rating) => {
@@ -29,7 +42,7 @@ export default function LibraryBookCard({ book, isEditing, openDeleteModal }) {
   };
 
   return (
-    <Link href={`/book/${book.id}/${encodeURIComponent(book.title)}`}>
+    <Link href={`/library/${encodeURIComponent(status)}/${encodeURIComponent(book.id)}/${slug}`}>
       <div className="flex">
         <div className="flex w-full items-center gap-4">
           <img
