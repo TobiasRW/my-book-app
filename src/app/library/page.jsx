@@ -6,6 +6,7 @@ import Link from "next/link";
 import ShelfModal from "./components/ShelfModal";
 import ShelfList from "./components/ShelfList";
 import GuestView from "./components/GuestView";
+import LibraryCategoryList from "./components/LibraryCategoryList";
 
 export default function LibraryPage() {
   const [shelves, setShelves] = useState([]);
@@ -34,7 +35,7 @@ export default function LibraryPage() {
           setError(data.error);
         } else {
           setShelves(data.shelves); // Set shelves
-          console.log("Shelves:", data.shelves);
+          // console.log("Shelves:", data.shelves);
         }
       } catch (err) {
         // Log error and set error message
@@ -178,6 +179,12 @@ export default function LibraryPage() {
             isEditing={isEditing}
             handleDeleteShelf={handleDeleteShelf}
           />
+
+          {/* Custom Library Categories */}
+          <div className="mt-10 mb-4">
+            <h2 className="text-2xl font-bold">Library Categories</h2>
+          </div>
+            <LibraryCategoryList />
         </>
       )}
     </div>

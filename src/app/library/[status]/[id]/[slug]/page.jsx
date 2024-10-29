@@ -1,15 +1,17 @@
+// /library/[status]/[id]/[slug]/page.jsx
+
 import Back from "@/app/components/navs/Back";
 import Button from "@/app/components/navs/Button";
-import RemoveFromLibraryButton from "./components/RemoveFromLibraryButton";
+import RemoveFromLibraryButton from "../../../../library/shelf/[shelfName]/[bookId]/[slug]/components/RemoveFromLibraryButton";
 import ReadMoreLess from "@/app/book/[id]/[slug]/components/ReadMoreLess";
-import ShelfBookFacts from "./components/ShelfBookFacts";
+import ShelfBookFacts from "../../../../library/shelf/[shelfName]/[bookId]/[slug]/components/ShelfBookFacts";
+import UpdateBookStatus from "../../../../library/shelf/[shelfName]/[bookId]/[slug]/components/UpdateBookStatus";
 import Link from "next/link";
 import React from "react";
 import sharp from "sharp";
-import UpdateBookStatus from "./components/UpdateBookStatus";
 
-export default async function ShelfBookDetailPage({ params }) {
-  const { shelfName, bookId, slug } = params;
+export default async function LibraryBookDetailPage({ params }) {
+  const { status, id: bookId, slug } = params;
 
   let book = null;
   let error = "";
@@ -21,7 +23,7 @@ export default async function ShelfBookDetailPage({ params }) {
 
   try {
     const response = await fetch(
-      `https://www.googleapis.com/books/v1/volumes/${bookId}`,
+      `https://www.googleapis.com/books/v1/volumes/${bookId}`
     );
 
     // Check if the response is successful
@@ -152,8 +154,8 @@ export default async function ShelfBookDetailPage({ params }) {
         </div>
 
         <div className="flex gap-10">
-        <UpdateBookStatus bookId={book.id}/>
-        <RemoveFromLibraryButton bookId={book.id} shelfName={shelfName} />
+          <UpdateBookStatus bookId={book.id} />
+          <RemoveFromLibraryButton bookId={book.id} status={status} />
         </div>
       </section>
       <section className="-mt-5 w-full rounded-t-[1.75rem] bg-background">
@@ -167,7 +169,7 @@ export default async function ShelfBookDetailPage({ params }) {
       </section>
       <Link
         href={`https://www.amazon.com/s?k=${encodeURIComponent(
-          book.title + " " + primaryAuthor,
+          book.title + " " + primaryAuthor
         )}`}
         target="_blank"
         rel="noreferrer"

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ShelfBookCard from "./components/ShelfBookCard";
-import Link from "next/link";
 
 export default function ShelfPage() {
   const { shelfName } = useParams(); // Changed to use shelfName
@@ -25,26 +24,25 @@ export default function ShelfPage() {
         if (data.error) {
           setError(data.error);
         } else {
-          const bookIds = data.books.map((book) => book.book_id); // Map over books and extract book_id
-          setRetrievedShelfName(data.shelfName); // Set shelf name
-
-          // Fetch book details
           const booksData = await Promise.all(
-            bookIds.map(async (id) => {
-              // Map over bookIds and fetch book details
+            data.books.map(async (book) => {
+              // Fetch book details from Google Books API
               const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes/${id}`,
+                `https://www.googleapis.com/books/v1/volumes/${book.book_id}`
               );
-              const data = await response.json();
+              const bookData = await response.json();
               return {
-                id: data.id,
-                title: data.volumeInfo.title || "No Title",
-                author: data.volumeInfo.authors?.join(", ") || "Unknown Author",
-                coverID: data.volumeInfo.imageLinks?.thumbnail,
+                id: bookData.id,
+                title: bookData.volumeInfo.title || "No Title",
+                author: bookData.volumeInfo.authors?.join(", ") || "Unknown Author",
+                coverID: bookData.volumeInfo.imageLinks?.thumbnail || "/placeholder.png",
+                rating: book.rating, // Include rating
+                status: book.status, // Include status if needed
               };
-            }),
+            })
           );
-          setBooks(booksData); // Set books
+          setRetrievedShelfName(data.shelfName); // Set shelf name
+          setBooks(booksData); // Set books with rating
         }
       } catch (err) {
         // Log error and set error message
