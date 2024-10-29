@@ -23,7 +23,7 @@ export default function LibraryBookModal({ isOpen, onConfirm, onCancel }) {
           exit="exit"
           transition={{ type: "spring", damping: 25, stiffness: 120 }}
         >
-          <div className="h-[90vh] w-full rounded-t-3xl bg-offwhite p-6 dark:bg-darkgray">
+          <div className="h-[90svh] w-full rounded-t-3xl bg-offwhite p-6 dark:bg-darkgray">
             <div className="mb-8 grid grid-cols-3 items-center">
               <p
                 onClick={onCancel}

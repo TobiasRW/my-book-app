@@ -139,7 +139,7 @@ export default function LibraryPage() {
   }, [error, shelfError]);
 
   return (
-    <div className="mx-auto w-11/12">
+    <div className="mx-auto w-11/12 min-h-[100svh] pb-32">
       <h1 className="mt-8 text-3xl font-bold">Your Library</h1>
 
       <ShelfModal

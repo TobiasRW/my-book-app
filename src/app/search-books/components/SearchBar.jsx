@@ -94,7 +94,7 @@ export default function SearchBar({ initialQuery, initialAuthor }) {
             </svg>
           </button>
           <input
-            className="h-full w-full bg-offwhite text-sm text-gray-400 outline-none dark:bg-darkgray"
+            className="h-full w-full bg-offwhite text-base text-gray-400 outline-none dark:bg-darkgray"
             type="text"
             placeholder="Search by title, author or ISBN..."
             value={query}
