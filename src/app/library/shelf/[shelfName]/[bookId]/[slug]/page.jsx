@@ -9,6 +9,9 @@ import sharp from "sharp";
 import UpdateBookStatus from "./components/UpdateBookStatus";
 
 export default async function ShelfBookDetailPage({ params }) {
+
+  const defaultCover = "/assets/img/default-cover.webp";
+
   const { shelfName, bookId, slug } = params;
 
   let book = null;
@@ -44,7 +47,7 @@ export default async function ShelfBookDetailPage({ params }) {
         data.volumeInfo.industryIdentifiers?.[0]?.identifier ||
         data.volumeInfo.industryIdentifiers?.[1]?.identifier ||
         "N/A",
-      coverID: data.volumeInfo.imageLinks?.thumbnail,
+      coverID: data.volumeInfo.imageLinks?.thumbnail || defaultCover,
       rating: data.volumeInfo.averageRating || "No Rating",
       description: data.volumeInfo.description || "No Description Available",
     };

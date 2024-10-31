@@ -1,10 +1,16 @@
+export const revalidate = 0; // Revalidate on every request
+
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import createConnection from '../../../lib/db';
 import ClientShelfPage from './components/ClientShelfPage';
 
+
 // Server-side component to render the shelf page and get shelf data
 export default async function ShelfPage({ params }) {
+
+  const defaultCover = '/assets/img/default-cover.webp';
+
   const { shelfName } = params;
   let connection;
 
@@ -60,7 +66,7 @@ export default async function ShelfPage({ params }) {
           title: bookData.volumeInfo.title || 'No Title',
           author: bookData.volumeInfo.authors?.join(', ') || 'Unknown Author',
           coverID:
-            bookData.volumeInfo.imageLinks?.thumbnail || '/placeholder.png',
+            bookData.volumeInfo.imageLinks?.thumbnail || defaultCover,
           rating: book.rating,
           status: book.status, // Status (category) for books in library if needed
         };

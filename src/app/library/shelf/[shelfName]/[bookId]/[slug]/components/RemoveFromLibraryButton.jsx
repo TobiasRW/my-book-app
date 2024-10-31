@@ -62,8 +62,8 @@ export default function RemoveFromLibraryButton({ bookId, shelfName }) {
       if (data.error) {
         setError(data.error);
       } else {
-        // Redirect to the previous page or show a success message
-        router.back();
+       // Navigate back to the shelf page and refresh
+       router.push(`/library/shelf/${encodeURIComponent(shelfName)}`);
       }
     } catch (err) {
       console.error("Error removing book from shelf:", err);
