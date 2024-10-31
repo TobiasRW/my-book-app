@@ -1,87 +1,83 @@
-"use client";
+import { cookies } from 'next/headers';
+import jwt from 'jsonwebtoken';
+import createConnection from '../../../lib/db';
+import ClientShelfPage from './components/ClientShelfPage';
 
-import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import ShelfBookCard from "./components/ShelfBookCard";
+// Server-side component to render the shelf page and get shelf data
+export default async function ShelfPage({ params }) {
+  const { shelfName } = params;
+  let connection;
 
-export default function ShelfPage() {
-  const { shelfName } = useParams(); // Changed to use shelfName
-  const [books, setBooks] = useState([]);
-  const [retrievedShelfName, setRetrievedShelfName] = useState("");
-  const [error, setError] = useState("");
+  try {
+    // Retrieve the token from cookies
+    const cookieStore = cookies();
+    const token = cookieStore.get('token')?.value;
 
-  // UseEffect to fetch books on page load
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        // Fetch books in shelf using shelfName
-        const res = await fetch(
-          `/api/shelves/name/${encodeURIComponent(shelfName)}/books`,
+    // If no token is found, render an error message or redirect
+    if (!token) {
+      return <p>You must be logged in to view this page.</p>;
+    }
+
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    // Create a database connection
+    connection = await createConnection();
+
+    // Fetch the shelf data
+    const [shelves] = await connection.query(
+      'SELECT PK_ID AS shelf_id, shelf_name FROM book_shelves WHERE shelf_name = ? AND user_id = ?',
+      [shelfName, userId]
+    );
+
+    if (shelves.length === 0) {
+      // Shelf not found or does not belong to user
+      return <p>Shelf not found.</p>;
+    }
+
+    const shelf = shelves[0];
+
+    // Fetch books in the shelf using a stored procedure
+    const [booksRows] = await connection.query(
+      'CALL GetShelfBookRatingAndStatus(?, ?)',
+      [userId, shelf.shelf_id]
+    );
+
+    const booksDataRaw = booksRows[0]; // Extract data from the result set
+
+    // Fetch book details from Google Books API
+    const booksData = await Promise.all(
+      booksDataRaw.map(async (book) => {
+        const response = await fetch(
+          `https://www.googleapis.com/books/v1/volumes/${book.book_id}`
         );
-        const data = await res.json();
+        const bookData = await response.json();
 
-        // Check for errors
-        if (data.error) {
-          setError(data.error);
-        } else {
-          const booksData = await Promise.all(
-            data.books.map(async (book) => {
-              // Fetch book details from Google Books API
-              const response = await fetch(
-                `https://www.googleapis.com/books/v1/volumes/${book.book_id}`,
-              );
-              const bookData = await response.json();
-              return {
-                id: bookData.id,
-                title: bookData.volumeInfo.title || "No Title",
-                author:
-                  bookData.volumeInfo.authors?.join(", ") || "Unknown Author",
-                coverID:
-                  bookData.volumeInfo.imageLinks?.thumbnail ||
-                  "/placeholder.png",
-                rating: book.rating, // Include rating
-                status: book.status, // Include status if needed
-              };
-            }),
-          );
-          setRetrievedShelfName(data.shelfName); // Set shelf name
-          setBooks(booksData); // Set books with rating
-        }
-      } catch (err) {
-        // Log error and set error message
-        console.error("Error fetching books in shelf:", err);
-        setError("An error occurred while fetching books in shelf.");
-      }
-    };
+        // Extract relevant data from the API response
+        return {
+          id: bookData.id,
+          title: bookData.volumeInfo.title || 'No Title',
+          author: bookData.volumeInfo.authors?.join(', ') || 'Unknown Author',
+          coverID:
+            bookData.volumeInfo.imageLinks?.thumbnail || '/placeholder.png',
+          rating: book.rating,
+          status: book.status, // Status (category) for books in library if needed
+        };
+      })
+    );
 
-    fetchBooks(); // Call fetchBooks function
-  }, [shelfName]); // Dependency array with shelfName
-
-  return (
-    <div className="mx-auto min-h-[100svh] w-11/12">
-      <h1 className="mt-8 text-3xl font-bold">
-        {retrievedShelfName || "Shelf"}
-      </h1>
-      {error && <p className="text-red-500">{error}</p>}
-      <div>
-        <div className="flex items-center justify-between py-4">
-          <p className="text-sm font-bold text-textgray">
-            {books.length} {books.length === 1 ? "BOOK" : "BOOKS"}
-          </p>
-          <p>sort by</p>
-        </div>
-
-        <div className="my-4 flex flex-col gap-6">
-          {books.map((book, index) => (
-            <div
-              key={book.id}
-              className={index === books.length - 1 ? "mb-20" : ""}
-            >
-              <ShelfBookCard key={book.id} book={book} shelfName={shelfName} />
-            </div>
-          ))}
-        </div>
+    // Pass the data to the client component
+    return (
+      <div className="mx-auto min-h-[100vh] w-11/12">
+        <h1 className="mt-8 text-3xl font-bold">{shelf.shelf_name}</h1>
+        <ClientShelfPage books={booksData} shelfName={shelf.shelf_name} />
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('Error loading shelf:', error);
+    return <p>Error loading shelf.</p>;
+  } finally {
+    if (connection) await connection.end();
+  }
 }

@@ -3,7 +3,7 @@ import { IoLibrarySharp } from "react-icons/io5";
 
 export default function GuestView() {
   return (
-    <>
+    <section className="mx-auto w-11/12">
       <div className="mt-10">
         <div className="flex flex-col gap-2">
           <p className="text-xl italic">Welcome to the Library!</p>
@@ -35,6 +35,6 @@ export default function GuestView() {
           </p>
         </div>
       </div>
-    </>
+    </section>
   );
 }

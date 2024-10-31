@@ -1,4 +1,3 @@
-// context/UserContext.jsx
 "use client";
 
 import { createContext, useState, useEffect } from "react";

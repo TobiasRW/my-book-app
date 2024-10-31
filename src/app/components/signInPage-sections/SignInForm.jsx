@@ -82,7 +82,7 @@ export default function SignInForm() {
         </div>
         <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
           <label htmlFor="username" className="font-satoshi font-light">
-            Username
+            Password
           </label>
           <Input
             type="password"
