@@ -1,8 +1,6 @@
-// /library/[status]/[id]/[slug]/page.jsx
-
 import Back from "@/app/components/navs/Back";
 import Button from "@/app/components/navs/Button";
-import RemoveFromLibraryButton from "../../../../library/shelf/[shelfName]/[bookId]/[slug]/components/RemoveFromLibraryButton";
+import DeleteFromLibraryButton from "./components/DeleteFromLibraryButton";
 import ReadMoreLess from "@/app/book/[id]/[slug]/components/ReadMoreLess";
 import ShelfBookFacts from "../../../../library/shelf/[shelfName]/[bookId]/[slug]/components/ShelfBookFacts";
 import UpdateBookStatus from "../../../../library/shelf/[shelfName]/[bookId]/[slug]/components/UpdateBookStatus";
@@ -155,7 +153,7 @@ export default async function LibraryBookDetailPage({ params }) {
 
         <div className="flex gap-10">
           <UpdateBookStatus bookId={book.id} />
-          <RemoveFromLibraryButton bookId={book.id} status={status} />
+          <DeleteFromLibraryButton bookId={book.id} category={status}/>
         </div>
       </section>
       <section className="-mt-5 w-full rounded-t-[1.75rem] bg-background">
