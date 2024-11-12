@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FaStar, FaStarHalf } from "react-icons/fa";
 
 export default function ShelfBookCard({ book, shelfName }) {
@@ -22,13 +23,13 @@ export default function ShelfBookCard({ book, shelfName }) {
     // Add full stars
     for (let i = 0; i < fullStars; i++) {
       stars.push(
-        <FaStar key={i} className="w-4 text-lightgray dark:text-offwhite" />,
+        <FaStar key={i} className="w-3 text-lightgray dark:text-offwhite" />,
       );
     }
 
     // Add half star
     if (hasHalfStar) {
-      stars.push(<FaStarHalf key="half" className="w-4" />);
+      stars.push(<FaStarHalf key="half" className="w-3" />);
     }
 
     return stars;
@@ -40,10 +41,12 @@ export default function ShelfBookCard({ book, shelfName }) {
     >
       <div className="flex">
         <div className="flex w-full items-center gap-4">
-          <img
+          <Image
             src={book.coverID}
             alt={book.title}
-            className="aspect-[2/3] w-16 rounded-lg object-cover"
+            width={64} 
+            height={96} 
+            className="aspect-[2/3] w-14 rounded-lg object-cover"
           />
           <div className="h-full w-full">
             <div className="flex h-full flex-col justify-center border-b border-darkgray">

@@ -7,6 +7,7 @@ import Link from "next/link";
 import React from "react";
 import sharp from "sharp";
 import UpdateBookStatus from "./components/UpdateBookStatus";
+import Image from "next/image";
 
 export default async function ShelfBookDetailPage({ params }) {
 
@@ -144,7 +145,9 @@ export default async function ShelfBookDetailPage({ params }) {
           }, ${avgG + 30}, ${avgB + 30}, 1) 100%)`,
         }}
       >
-        <img
+        <Image
+          width={64}
+          height={96}
           src={book?.coverID}
           className="aspect-[2/3] w-2/6 rounded-md object-cover drop-shadow-xl"
           alt={`${book?.title} cover`}

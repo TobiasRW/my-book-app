@@ -16,7 +16,7 @@ export default function ClientShelfPage({ books: initialBooks, shelfName }) {
         <p>Sort by</p>
       </div>
 
-      <div className="my-4 flex flex-col gap-6">
+      <div className="my-4 flex flex-col gap-4">
         {books.map((book, index) => (
           <div
             key={book.id}

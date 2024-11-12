@@ -7,6 +7,7 @@ import React from "react";
 import sharp from "sharp";
 import MoreBooks from "@/app/book/[id]/[slug]/components/MoreBooks"; // Import the new component
 import AddToLibraryButton from "./components/AddToLibraryButton";
+import Image from "next/image";
 
 export default async function BookDetailPage({ params }) {
   const { id } = params;
@@ -140,7 +141,9 @@ export default async function BookDetailPage({ params }) {
           background: `linear-gradient(to bottom, ${averageColor} 70%, rgba(${avgR + 30}, ${avgG + 30}, ${avgB + 30}, 1) 100%)`,
         }}
       >
-        <img
+        <Image
+          width={64}
+          height={96}
           src={book?.coverID || defaultCover}
           className="aspect-[2/3] w-2/6 rounded-md object-cover drop-shadow-xl"
           alt={`${book?.title} cover`}

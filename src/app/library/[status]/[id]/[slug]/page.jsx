@@ -7,6 +7,7 @@ import UpdateBookStatus from "../../../../library/shelf/[shelfName]/[bookId]/[sl
 import Link from "next/link";
 import React from "react";
 import sharp from "sharp";
+import Image from "next/image";
 
 export default async function LibraryBookDetailPage({ params }) {
   const { status, id: bookId, slug } = params;
@@ -141,7 +142,9 @@ export default async function LibraryBookDetailPage({ params }) {
           }, ${avgG + 30}, ${avgB + 30}, 1) 100%)`,
         }}
       >
-        <img
+        <Image
+          width={128}
+          height={192}
           src={book?.coverID}
           className="aspect-[2/3] w-2/6 rounded-md object-cover drop-shadow-xl"
           alt={`${book?.title} cover`}

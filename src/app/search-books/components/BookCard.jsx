@@ -2,6 +2,7 @@
 import React from "react";
 import StarRating from "./StarRating";
 import Link from "next/link";
+import Image from "next/image";
 
 function generateSlug(title) {
   return title
@@ -27,7 +28,9 @@ export default function BookCard({
   return (
     <Link href={`/book/${id}/${slug}`}>
       <div className="mx-auto flex gap-4 sm:w-5/6">
-        <img
+        <Image
+          width={64}
+          height={96}
           src={coverID || defaultCover} // Google Books cover URL or default cover
           alt={title}
           className="aspect-[2/3] w-1/5 rounded-md object-cover"

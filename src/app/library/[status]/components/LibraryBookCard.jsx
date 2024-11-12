@@ -3,6 +3,7 @@
 import React from "react";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { TiDelete } from "react-icons/ti";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaStarHalf } from "react-icons/fa"; // Import additional icons
@@ -30,12 +31,12 @@ export default function LibraryBookCard({ book, isEditing, openDeleteModal, stat
 
     // Add full stars
     for (let i = 0; i < fullStars; i++) {
-      stars.push(<FaStar key={i} className="w-4 text-lightgray dark:text-offwhite" />);
+      stars.push(<FaStar key={i} className="w-3 text-lightgray dark:text-offwhite" />);
     }
 
     // Add half star
     if (hasHalfStar) {
-      stars.push(<FaStarHalf key="half" className="w-4" />);
+      stars.push(<FaStarHalf key="half" className="w-3" />);
     }
 
     return stars;
@@ -45,10 +46,12 @@ export default function LibraryBookCard({ book, isEditing, openDeleteModal, stat
     <Link href={`/library/${encodeURIComponent(status)}/${encodeURIComponent(book.id)}/${slug}`}>
       <div className="flex">
         <div className="flex w-full items-center gap-4">
-          <img
+          <Image
+            width={64}
+            height={96}
             src={book.coverID}
             alt={book.title}
-            className="aspect-[2/3] w-16 rounded-lg object-cover"
+            className="aspect-[2/3] w-14 rounded-lg object-cover"
           />
           <div className="h-full w-full">
             <div className="flex h-full border-b border-darkgray justify-between items-center">

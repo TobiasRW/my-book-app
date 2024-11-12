@@ -70,7 +70,7 @@ export default function ClientLibraryCategoryPage({ books: initialBooks, error: 
         </div>
       </div>
 
-      <div className="my-4 flex flex-col gap-6">
+      <div className="my-4 flex flex-col gap-4">
         {books.length === 0 ? (
           <p className="text-center">No books in this category.</p>
         ) : (
