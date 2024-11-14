@@ -6,7 +6,6 @@ import LibraryBookModal from "./LibraryBookModal";
 import { RiEdit2Fill } from "react-icons/ri";
 import { IoLibrarySharp } from "react-icons/io5";
 
-// Client-side component to render a category page in the library
 export default function ClientLibraryCategoryPage({
   books: initialBooks,
   error: initialError,

@@ -7,7 +7,6 @@ import ShelfList from "./ShelfList";
 import ShelfModal from "./ShelfModal";
 import LibraryCategoryList from "./LibraryCategoryList";
 
-// Slient side component to create interactive library page
 export default function ClientLibraryPage({ initialShelves }) {
   const router = useRouter();
   const [shelves, setShelves] = useState(initialShelves || []);

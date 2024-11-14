@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import ShelfBookCard from './ShelfBookCard';
 
-// Client-side component to render the shelf page
 export default function ClientShelfPage({ books: initialBooks, shelfName }) {
   const [books, setBooks] = useState(initialBooks);
 
