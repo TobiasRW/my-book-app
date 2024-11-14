@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { RiEdit2Fill } from "react-icons/ri";
 import ShelfList from "./ShelfList";
 import ShelfModal from "./ShelfModal";
@@ -8,6 +9,7 @@ import LibraryCategoryList from "./LibraryCategoryList";
 
 // Slient side component to create interactive library page
 export default function ClientLibraryPage({ initialShelves }) {
+  const router = useRouter();
   const [shelves, setShelves] = useState(initialShelves || []);
   const [isEditing, setIsEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -52,6 +54,7 @@ export default function ClientLibraryPage({ initialShelves }) {
         setShelves([...shelves, { shelf_name: shelfName, book_count: 0 }]); // Update shelves state
         setShelfName(""); // Clear input field after successful creation
         closeModal(); // Close the modal
+        router.refresh();
       }
     } catch (err) {
       // Log and display error message
@@ -82,6 +85,7 @@ export default function ClientLibraryPage({ initialShelves }) {
         setError(data.error);
       } else {
         setShelves(shelves.filter((shelf) => shelf.shelf_name !== shelfName)); // Remove the deleted shelf from the state
+        router.refresh();
       }
     } catch (err) {
       console.error("Error deleting shelf:", err);

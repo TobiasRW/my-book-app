@@ -5,9 +5,15 @@ import BookFacts from "@/app/book/[id]/[slug]/components/BookFacts";
 import Link from "next/link";
 import React from "react";
 import sharp from "sharp";
-import MoreBooks from "@/app/book/[id]/[slug]/components/MoreBooks"; // Import the new component
+import MoreBooks from "@/app/book/[id]/[slug]/components/MoreBooks";
 import AddToLibraryButton from "./components/AddToLibraryButton";
 import Image from "next/image";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
+import createConnection from "@/app/lib/db";
+
+// Revalidate on every request
+export const revalidate = 0;
 
 export default async function BookDetailPage({ params }) {
   const { id } = params;
@@ -118,6 +124,40 @@ export default async function BookDetailPage({ params }) {
       "An error occurred while fetching the book details. Please try again later.";
   }
 
+    // Fetch shelves data on the server
+    let shelves = [];
+    try {
+      // Get the token from the cookies
+      const cookieStore = cookies();
+      const token = cookieStore.get("token")?.value;
+  
+      if (token) {
+        // Decode the token to get the user ID
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+  
+        // Create a connection to the database
+        const connection = await createConnection();
+  
+        // Fetch the user's shelves
+        const [shelvesRows] = await connection.query(
+          "SELECT shelf_name FROM book_shelves WHERE user_id = ?",
+          [userId]
+        );
+  
+        shelves = shelvesRows.map((row) => row.shelf_name);
+  
+        // Close the database connection
+        await connection.end();
+      } else {
+        // Handle unauthenticated case if necessary
+      }
+    } catch (err) {
+      console.error("Error fetching shelves:", err);
+      // Handle error if necessary
+    }
+  
+
   // Format the description by replacing HTML tags
   const formattedDescription = book?.description
     .replace(/<\/?p>/g, "\n\n") // Replace <p> and </p> with two line breaks
@@ -155,7 +195,7 @@ export default async function BookDetailPage({ params }) {
         </div>
 
         {/* <Button content="+ Add to library" btnType="primary" /> */}
-        <AddToLibraryButton bookId={book.id} />
+        <AddToLibraryButton bookId={book.id} shelves={shelves}/>
       </section>
       <section className="-mt-5 w-full rounded-t-[1.75rem] bg-background">
         <div className="mx-auto flex w-10/12 flex-col gap-4 pt-10">

@@ -1,14 +1,20 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import LibraryBookCard from './LibraryBookCard';
-import LibraryBookModal from './LibraryBookModal';
-import { RiEdit2Fill } from 'react-icons/ri';
+import React, { useState } from "react";
+import LibraryBookCard from "./LibraryBookCard";
+import LibraryBookModal from "./LibraryBookModal";
+import { RiEdit2Fill } from "react-icons/ri";
+import { IoLibrarySharp } from "react-icons/io5";
 
 // Client-side component to render a category page in the library
-export default function ClientLibraryCategoryPage({ books: initialBooks, error: initialError, categoryName, status }) {
+export default function ClientLibraryCategoryPage({
+  books: initialBooks,
+  error: initialError,
+  categoryName,
+  status,
+}) {
   const [books, setBooks] = useState(initialBooks || []);
-  const [error, setError] = useState(initialError || '');
+  const [error, setError] = useState(initialError || "");
   const [showModal, setShowModal] = useState(false);
   const [bookToDelete, setBookToDelete] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -18,14 +24,14 @@ export default function ClientLibraryCategoryPage({ books: initialBooks, error: 
     if (!bookToDelete) return;
 
     try {
-      const res = await fetch('/api/user_books', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/user_books", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ bookId: bookToDelete }),
       });
 
       if (res.status === 401) {
-        setError('You must be logged in to perform this action.');
+        setError("You must be logged in to perform this action.");
         return;
       }
 
@@ -39,8 +45,8 @@ export default function ClientLibraryCategoryPage({ books: initialBooks, error: 
         closeModal();
       }
     } catch (err) {
-      console.error('Error deleting book from library:', err);
-      setError('An error occurred while deleting the book.');
+      console.error("Error deleting book from library:", err);
+      setError("An error occurred while deleting the book.");
     }
   };
 
@@ -55,12 +61,11 @@ export default function ClientLibraryCategoryPage({ books: initialBooks, error: 
   };
 
   return (
-    <div className="mx-auto min-h-[100vh] w-11/12">
-      <h1 className="mt-8 text-center text-3xl font-bold">{categoryName}</h1>
+    <div className="mx-auto mt-16 min-h-[100vh] w-11/12">
       {error && <p className="text-red-500">{error}</p>}
       <div className="mb-4 mt-10">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Books in {categoryName}</h2>
+          <h2 className="text-2xl font-bold">{categoryName}</h2>
           <div className="flex items-center gap-2">
             <RiEdit2Fill
               className="text-xl text-darkgray dark:text-offwhite"
@@ -70,14 +75,22 @@ export default function ClientLibraryCategoryPage({ books: initialBooks, error: 
         </div>
       </div>
 
-      <div className="my-4 flex flex-col gap-4">
+      <div className="my-8 flex flex-col gap-4">
         {books.length === 0 ? (
-          <p className="text-center">No books in this category.</p>
+          <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
+            <IoLibrarySharp className="self-center text-6xl" />
+            <h3 className="text-center text-2xl font-bold">
+              This category is empty
+            </h3>
+            <p className="w-3/4 text-center text-textgray">
+              Add new books or existing ones from your library or shelves.
+            </p>
+          </div>
         ) : (
           books.map((book, index) => (
             <div
               key={book.id}
-              className={index === books.length - 1 ? 'mb-20' : ''}
+              className={index === books.length - 1 ? "mb-20" : ""}
             >
               <LibraryBookCard
                 key={book.id}

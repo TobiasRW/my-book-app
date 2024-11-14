@@ -21,29 +21,13 @@ const errorVariants = {
   exit: { opacity: 0, scale: 0.5 },
 };
 
-export default function AddToLibraryButton({ bookId }) {
+export default function AddToLibraryButton({ bookId, shelves }) {
   const [showModal, setShowModal] = useState(false);
-  const [shelves, setShelves] = useState([]);
   const [error, setError] = useState("");
 
   // Function to open the modal and fetch shelves
   const openModal = async () => {
     setShowModal(true); // Open modal
-    try {
-      // Fetch shelves
-      const res = await fetch("/api/shelves");
-      const data = await res.json();
-      // Check for errors
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setShelves(data.shelves); // Set shelves
-      }
-    } catch (err) {
-      // Log error and set error message
-      console.error("Error fetching shelves:", err);
-      setError("An error occurred while fetching shelves.");
-    }
   };
 
   // Function to close the modal
@@ -146,15 +130,15 @@ export default function AddToLibraryButton({ bookId }) {
                       Create a shelf in your library
                     </Link>
                   ) : (
-                    shelves.map((shelf) => (
+                    shelves.map((shelfName) => (
                       <div
-                        key={shelf.shelf_name}
+                        key={shelfName}
                         className="grid grid-cols-3 items-center border-b border-lightgray last:border-none"
-                        onClick={() => handleAddToShelf(shelf.shelf_name)}
+                        onClick={() => handleAddToShelf(shelfName)}
                       >
                         <ImBooks className="ml-4 text-2xl" />
                         <p className="col-span-1 justify-self-center text-nowrap p-4 text-lg font-semibold">
-                          {shelf.shelf_name}
+                          {shelfName}
                         </p>
                       </div>
                     ))
