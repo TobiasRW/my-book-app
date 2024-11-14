@@ -52,7 +52,7 @@ export default async function LibraryCategoryPage({ params }) {
         categoryName = 'Currently Reading';
         queryParam = 'currently-reading';
         break;
-      case 'to read':
+      case 'to-read':
         categoryName = 'To Read';
         queryParam = 'to-read';
         break;
