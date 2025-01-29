@@ -9,7 +9,7 @@ export default function () {
   const pathname = usePathname();
 
   return (
-    <header className="fixed bottom-0 z-[200] w-full bg-offwhite/20 pb-2 pt-1 backdrop-blur-lg dark:bg-darkgray/20">
+    <header className="fixed bottom-0 z-[200] w-full bg-offwhite/20 pb-2 pt-1 backdrop-blur-lg dark:bg-darkgray/20 sm:mx-auto sm:w-[430px]">
       <nav className="mx-auto flex h-16 w-11/12 items-center justify-between">
         <Link
           href="/home"

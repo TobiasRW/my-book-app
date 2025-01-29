@@ -16,7 +16,7 @@ export default function LibraryBookModal({ isOpen, onConfirm, onCancel }) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="modal fixed inset-0 z-[1000] flex items-end justify-center"
+          className="modal fixed inset-0 z-[1000] flex items-end justify-center sm:mx-auto sm:w-[430px]"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
@@ -31,7 +31,7 @@ export default function LibraryBookModal({ isOpen, onConfirm, onCancel }) {
               >
                 Cancel
               </p>
-              <h2 className="col-span-1 text-center font-bold text-nowrap justify-self-center">
+              <h2 className="col-span-1 justify-self-center text-nowrap text-center font-bold">
                 Confirm Delete
               </h2>
             </div>
@@ -40,7 +40,10 @@ export default function LibraryBookModal({ isOpen, onConfirm, onCancel }) {
             </div>
             <Button btnType="third" content="Yes, Delete" click={onConfirm} />
             <div className="mt-10 text-center">
-              <p>This will delete the book from your library and all of your shelves. This action cannot be undone.</p>
+              <p>
+                This will delete the book from your library and all of your
+                shelves. This action cannot be undone.
+              </p>
             </div>
           </div>
         </motion.div>

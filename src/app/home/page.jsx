@@ -9,6 +9,7 @@ import Reccomended from "./components/Recommended";
 import TopNav from "../components/navs/Back";
 import { IoIosSettings } from "react-icons/io";
 import { PiSignInFill } from "react-icons/pi";
+import ReadingNow from "./components/ReadingNow";
 
 export default function Home() {
   const { user } = useContext(UserContext);
@@ -34,12 +35,19 @@ export default function Home() {
           </Link>
         )}
       </div>
-      <div className=" ">
-        <h2 className="font-satoshi text-2xl font-light">Welcome {user}</h2>{" "}
-        {/* Dynamic Welcome Message */}
+      <div className="pt-5">
+        <div className="rounded-lg bg-[#f5f5f5] p-4 shadow-lg dark:bg-[#121212]">
+          <p className="text-lg font-semibold">Hi there {user}! 👋</p>
+          <p className="mt-4 line-clamp-3 font-light italic leading-normal">
+            Welcome to Book Buddy, the best app to track your reading. Explore
+            our large collection of books and start tracking your reading
+            progress today!
+          </p>
+        </div>
       </div>
-      <div className=" ">
+      <div className="pt-5">
         <h2 className="font-satoshi text-2xl font-light">Reading Now</h2>
+        <ReadingNow />
       </div>
       <div className=" ">
         <h2 className="mb-4 font-satoshi text-2xl font-light">Recommended</h2>

@@ -31,7 +31,7 @@ export default function ShelfModal({
       <AnimatePresence>
         {showModal && (
           <motion.div
-            className="modal fixed inset-0 z-[1000] flex items-end justify-center"
+            className="modal fixed inset-0 z-[1000] flex items-end justify-center sm:mx-auto sm:w-[430px]"
             variants={modalVariants}
             initial="hidden"
             animate="visible"

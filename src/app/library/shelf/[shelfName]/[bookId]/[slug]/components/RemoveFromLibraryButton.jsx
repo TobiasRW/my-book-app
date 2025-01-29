@@ -62,8 +62,8 @@ export default function RemoveFromLibraryButton({ bookId, shelfName }) {
       if (data.error) {
         setError(data.error);
       } else {
-       // Navigate back to the shelf page and refresh
-       router.push(`/library/shelf/${encodeURIComponent(shelfName)}`);
+        // Navigate back to the shelf page and refresh
+        router.push(`/library/shelf/${encodeURIComponent(shelfName)}`);
       }
     } catch (err) {
       console.error("Error removing book from shelf:", err);
@@ -88,14 +88,12 @@ export default function RemoveFromLibraryButton({ bookId, shelfName }) {
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-200/30">
           <TiDelete className="text-2xl text-slate-200" onClick={openModal} />
         </div>
-        <div className="mt-2 text-center text-sm">
-          Delete
-        </div>
+        <div className="mt-2 text-center text-sm">Delete</div>
       </div>
       <AnimatePresence>
         {showModal && (
           <motion.div
-            className="modal fixed inset-0 z-[1000] flex items-end justify-center"
+            className="modal fixed inset-0 z-[1000] flex items-end justify-center sm:mx-auto sm:w-[430px]"
             variants={modalVariants}
             initial="hidden"
             animate="visible"

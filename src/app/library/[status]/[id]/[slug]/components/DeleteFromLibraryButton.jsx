@@ -38,19 +38,15 @@ export default function DeleteFromLibraryButton({ bookId, category }) {
 
   // Function to delete book from shelf
   const handleRemoveFromLibrary = async () => {
-
     try {
       // Send DELETE request to remove book from shelf
-      const res = await fetch(
-        `/api/user_books`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ bookId }), // Pass bookId correctly
+      const res = await fetch(`/api/user_books`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ bookId }), // Pass bookId correctly
+      });
       const data = await res.json();
 
       // Check for errors
@@ -58,7 +54,7 @@ export default function DeleteFromLibraryButton({ bookId, category }) {
         setError(data.error);
       } else {
         // Redirect to the category page
-        router.push(`/library/${encodeURIComponent(category)}`)
+        router.push(`/library/${encodeURIComponent(category)}`);
         router.refresh();
       }
     } catch (err) {
@@ -84,14 +80,12 @@ export default function DeleteFromLibraryButton({ bookId, category }) {
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-200/30">
           <TiDelete className="text-2xl text-slate-200" onClick={openModal} />
         </div>
-        <div className="mt-2 text-center text-sm">
-          Delete
-        </div>
+        <div className="mt-2 text-center text-sm">Delete</div>
       </div>
       <AnimatePresence>
         {showModal && (
           <motion.div
-            className="modal fixed inset-0 z-[1000] flex items-end justify-center"
+            className="modal fixed inset-0 z-[1000] flex items-end justify-center sm:mx-auto sm:w-[430px]"
             variants={modalVariants}
             initial="hidden"
             animate="visible"

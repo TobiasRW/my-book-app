@@ -42,7 +42,7 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="mx-auto mt-20 flex w-11/12 flex-col gap-6">
+    <div className="mx-auto flex w-11/12 flex-col gap-6 pt-20">
       <div className="flex flex-col gap-10">
         <img
           src="/assets/svg/logo.svg"
