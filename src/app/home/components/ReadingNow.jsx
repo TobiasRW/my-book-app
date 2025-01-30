@@ -77,7 +77,7 @@ export default function ReadingNow() {
   if (user === "Guest") {
     return (
       <div className="mr-4 mt-4">
-        <p className="rounded-lg bg-[#f5f5f5] p-4 px-4 text-xl shadow-lg dark:bg-[#1a1a1a]">
+        <p className="mx-auto flex min-h-20 w-full items-center justify-center rounded-lg bg-[#f5f5f5] p-4 text-center font-light italic leading-normal shadow-lg dark:bg-[#121212]">
           You must be logged in to see your reading progress.
         </p>
       </div>
@@ -87,7 +87,7 @@ export default function ReadingNow() {
   return (
     <div className="relative mt-4 flex items-center">
       {loading && (
-        <p className="rounded-lg bg-[#f5f5f5] p-4 px-4 text-xl shadow-lg dark:bg-[#1a1a1a]">
+        <p className="mt-4 w-full rounded-lg bg-[#f5f5f5] p-4 text-center text-lg shadow-lg dark:bg-[#121212]">
           Loading books...
         </p>
       )}
@@ -117,8 +117,8 @@ export default function ReadingNow() {
               </Link>
             ))
           : !loading && (
-              <p className="rounded-lg bg-[#f5f5f5] p-4 px-4 text-2xl shadow-lg dark:bg-[#121212]">
-                No books currently being read.
+              <p className="flex min-h-20 w-screen items-center justify-center rounded-lg bg-[#f5f5f5] p-4 font-light italic leading-normal shadow-lg dark:bg-[#121212]">
+                Start reading your next book!
               </p>
             )}
       </div>

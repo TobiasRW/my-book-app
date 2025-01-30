@@ -10,6 +10,9 @@ import TopNav from "../components/navs/Back";
 import { IoIosSettings } from "react-icons/io";
 import { PiSignInFill } from "react-icons/pi";
 import ReadingNow from "./components/ReadingNow";
+import { FaBookOpen, FaCheck, FaHeart } from "react-icons/fa";
+import { TbTrophyFilled } from "react-icons/tb";
+import Achievements from "./components/Achievements";
 
 export default function Home() {
   const { user } = useContext(UserContext);
@@ -46,18 +49,20 @@ export default function Home() {
         </div>
       </div>
       <div className="pt-5">
-        <h2 className="font-satoshi text-2xl font-light">Reading Now</h2>
+        <div className="flex items-center gap-4">
+          <h2 className="font-satoshi text-2xl font-light">Reading Now</h2>
+          <FaBookOpen className="h-5 w-5" />
+        </div>
         <ReadingNow />
       </div>
-      <div className=" ">
-        <h2 className="mb-4 font-satoshi text-2xl font-light">Recommended</h2>
-        {/* <Reccomended /> */}
-      </div>
-      {/* <div className="flex justify-center mt-10">
-        <div className="w-64 sm:w-80 md:w-96 lg:w-[28rem] xl:w-[32rem] 2xl:w-[36rem]">
-          <LogoAnimation width="100%" />
+      <div className="pb-20 pt-5">
+        <div className="flex items-center gap-4">
+          <h2 className="font-satoshi text-2xl font-light">Achievements</h2>
+          <TbTrophyFilled className="h-6 w-6" />
         </div>
-      </div> */}
+        <Achievements />
+      </div>
+
       <div className=""></div>
     </div>
   );
